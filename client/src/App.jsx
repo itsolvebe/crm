@@ -63,6 +63,8 @@ const App = () => {
         {/* <Route path="/" element={<AdminLayout />} /> */}
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<ProtectedRoute />}>
           <Route path="admin/*" element={<AdminLayout />} />
         </Route>
