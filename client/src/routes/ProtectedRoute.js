@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
   const location = useLocation();
   // show unauthorized screen if no user is found in redux store
   if (!userInfo) {
-    return <Navigate to="/login" state={{ path: location.pathname }} />;
+    return <Navigate to="/signin" state={{ path: location.pathname }} />;
     // return (
     //   <div className="unauthorized">
     //     <h1>Unauthorized :(</h1>

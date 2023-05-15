@@ -16,7 +16,9 @@ import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "screens/ProfileScreen";
-import LoadingPage from "screens/LoadingPage";
+import LoadingPage from "components/LoadingPage";
+import Signin from "views/account/Signin";
+import Signup from "views/account/Signup";
 
 // const ProtectedRoute = ({ element: Element, role, ...rest }) => {
 //   // ... (existing code for ProtectedRoute)

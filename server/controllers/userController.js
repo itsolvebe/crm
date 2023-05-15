@@ -3,8 +3,8 @@ const User = require("../model/User.js");
 const generateToken = require("../utils/generateToken.js");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstName, email, password } = req.body;
-
+  const { firstName, lastName, email, password, phoneNumber } = req.body;
+  console.log(firstName, lastName, email, password, phoneNumber);
   // check if email exists in db
   const userExists = await User.findOne({ email });
 
@@ -14,13 +14,22 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // create new user document in db
-  const user = await User.create({ firstName, email, password });
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    password,
+    phoneNumber,
+  });
 
   if (user) {
     res.status(201).json({
       _id: user._id,
       firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      role: user.role,
+      phoneNumber: user.phoneNumber,
     });
   } else {
     res.status(400);
@@ -39,7 +48,10 @@ const loginUser = asyncHandler(async (req, res) => {
     res.json({
       _id: user._id,
       firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      role: user.role,
+      phoneNumber: user.phoneNumber,
       userToken: generateToken(user._id),
     });
   } else {
@@ -54,9 +66,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
   if (user) {
     res.json({
-      id: user._id,
+      _id: user._id,
       firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
+      role: user.role,
+      phoneNumber: user.phoneNumber,
     });
   } else {
     res.status(404);
