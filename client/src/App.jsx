@@ -6,6 +6,7 @@ import UserLayout from "layouts/user";
 import AuthLayout from "layouts/auth";
 import Signin from "views/account/Signin";
 import Signup from "views/account/Signup";
+import ChatLayout from "views/chat/ChatLayout";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/" element={<Navigate to="/admin" replace />} />
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/admin/chat" element={<ChatLayout />} />
     </Routes>
   );
 };
