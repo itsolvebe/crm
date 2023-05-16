@@ -1,50 +1,66 @@
-import React, { useState } from "react";
+import Error from "components/Error";
+import Spinner from "components/Spinner";
+import { registerUser } from "features/auth/authActions";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+  const [customError, setCustomError] = useState(null);
 
-  //   const { auth } = useAuthContext();
+  const { loading, userInfo, error, success } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
 
-  //   if (!auth.loading && auth.isLogged) {
-  //     window.location.href = "/dashboard";
-  //   }
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
-  const handleOnChange = (e) => {
-    const { id, value } = e.target;
-    setForm((prev) => ({ ...prev, [id]: value }));
+  useEffect(() => {
+    // redirect authenticated user to profile screen
+    if (userInfo) navigate("/admin/default");
+    // redirect user to login page if registration was successful
+    if (success) navigate("/signin");
+  }, [navigate, userInfo, success]);
+
+  const submitForm = (data) => {
+    // check if passwords match
+    if (data.password !== data.confirmPassword) {
+      setCustomError("Password mismatch");
+      return;
+    }
+    // transform email string to lowercase to avoid case sensitivity issues in login
+    data.email = data.email.toLowerCase();
+
+    dispatch(registerUser(data));
   };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    toast.success("Signup");
+  // const handleOnSubmit = (e) => {
+  //   e.preventDefault();
+  //   toast.success("Signup");
 
-    // fetch("http://localhost:3001/api/auth/register", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(form),
-    // }).then((res) => {
-    //   res.json().then((data) => {
-    //     if (data.error === null) {
-    //       window.location.href = "/login";
-    //     } else {
-    //       alert(data.error);
-    //     }
-    //   });
-    // });
-  };
+  //   // fetch("http://localhost:3001/api/auth/register", {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify(form),
+  //   // }).then((res) => {
+  //   //   res.json().then((data) => {
+  //   //     if (data.error === null) {
+  //   //       window.location.href = "/login";
+  //   //     } else {
+  //   //       alert(data.error);
+  //   //     }
+  //   //   });
+  //   // });
+  // };
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleOnSubmit(e);
+      submitForm(e);
     }
   };
 
@@ -73,8 +89,13 @@ function Signup() {
           <span className="font-medium text-[#00000074]">
             Let's create your ItSolve account first.
           </span>
+          {error && <Error>{error}</Error>}
+          {customError && <Error>{customError}</Error>}
         </div>
-        <div className="flex flex-col gap-6">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className="flex flex-col gap-6"
+        >
           <div className="flex w-full gap-4 sm:gap-12">
             <div className="flex w-full flex-col gap-2">
               <label className="font-medium text-[#00000074]">First name</label>
@@ -82,7 +103,7 @@ function Signup() {
                 type="text"
                 placeholder="John"
                 id="firstName"
-                onChange={handleOnChange}
+                {...register("firstName")}
                 onKeyDown={handleOnKeyDown}
                 className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
               />
@@ -94,7 +115,7 @@ function Signup() {
                 type="text"
                 placeholder="Doe"
                 id="lastName"
-                onChange={handleOnChange}
+                {...register("lastName")}
                 onKeyDown={handleOnKeyDown}
                 className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
               />
@@ -109,7 +130,7 @@ function Signup() {
               type="text"
               placeholder="john@itsolve.be"
               id="email"
-              onChange={handleOnChange}
+              {...register("email")}
               onKeyDown={handleOnKeyDown}
               className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
             />
@@ -121,7 +142,7 @@ function Signup() {
               type="password"
               placeholder="•••••••••"
               id="password"
-              onChange={handleOnChange}
+              {...register("password")}
               onKeyDown={handleOnKeyDown}
               className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
             />
@@ -135,21 +156,19 @@ function Signup() {
               type="password"
               placeholder="•••••••••"
               id="password"
-              onChange={handleOnChange}
+              {...register("confirmPassword")}
               onKeyDown={handleOnKeyDown}
               className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
             />
           </div>
 
           <div className="flex w-full flex-col gap-2">
-            <label className="font-medium text-[#00000074]">
-              Phone Number
-            </label>
+            <label className="font-medium text-[#00000074]">Phone Number</label>
             <input
               type="number"
               placeholder="+1 (555) 123 4567"
               id="password"
-              onChange={handleOnChange}
+              {...register("phoneNumber")}
               onKeyDown={handleOnKeyDown}
               className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
             />
@@ -157,10 +176,12 @@ function Signup() {
 
           <div>
             <button
+              type="submit"
+              disabled={loading}
               className="rounded-lg bg-navy-500 px-8 py-4 font-medium text-white duration-300 hover:bg-navy-300"
-              onClick={(e) => handleOnSubmit(e)}
+              // onClick={(e) => handleOnSubmit(e)}
             >
-              Create account
+              {loading ? <Spinner /> : "Create account"}
             </button>
           </div>
 
@@ -172,7 +193,7 @@ function Signup() {
               Log in here
             </Link>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

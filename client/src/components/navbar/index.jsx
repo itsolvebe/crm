@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -11,10 +11,25 @@ import {
   IoMdInformationCircleOutline,
 } from "react-icons/io";
 import avatar from "assets/img/avatars/avatar4.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetDetailsQuery } from "app/services/auth/authService";
+import { setCredentials } from "features/auth/authSlice";
+import { logout } from "features/auth/authSlice";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
   const [darkmode, setDarkmode] = React.useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  console.log(userInfo);
+  // automatically authenticate user if token is found
+  const { data, isFetching } = useGetDetailsQuery("userDetails", {
+    pollingInterval: 900000, // 15mins
+  });
+
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data));
+  }, [data, dispatch]);
 
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
@@ -103,10 +118,10 @@ const Navbar = (props) => {
                 </div>
                 <div className="ml-2 flex h-full w-full flex-col justify-center rounded-lg px-1 text-sm">
                   <p className="mb-1 text-left text-base font-bold text-gray-900 dark:text-white">
-                    New Update: Horizon UI Dashboard PRO
+                    New Update
                   </p>
                   <p className="font-base text-left text-xs text-gray-900 dark:text-white">
-                    A new update for your downloaded item is available!
+                    A new update
                   </p>
                 </div>
               </button>
@@ -114,8 +129,8 @@ const Navbar = (props) => {
           }
           classNames={"py-2 top-4 -left-[230px] md:-left-[440px] w-max"}
         />
-        {/* start Horizon PRO */}
-        <Dropdown
+
+        {/* <Dropdown
           button={
             <p className="cursor-pointer">
               <IoMdInformationCircleOutline className="h-4 w-4 text-gray-600 dark:text-white" />
@@ -156,7 +171,7 @@ const Navbar = (props) => {
           }
           classNames={"py-2 top-6 -left-[250px] md:-left-[330px] w-max"}
           animation="origin-[75%_0%] md:origin-top-right transition-all duration-300 ease-in-out"
-        />
+        /> */}
         <div
           className="cursor-pointer text-gray-600"
           onClick={() => {
@@ -189,8 +204,12 @@ const Navbar = (props) => {
               <div className="mt-3 ml-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    👋 Hey, Adela
-                  </p>{" "}
+                    {isFetching
+                      ? `Fetching your profile...`
+                      : userInfo !== null
+                      ? `👋 Hey, ${userInfo.firstName}`
+                      : "You're not logged in"}
+                  </p>
                 </div>
               </div>
               <div className="mt-3 h-px w-full bg-gray-200 dark:bg-white/20 " />
@@ -209,7 +228,7 @@ const Navbar = (props) => {
                   Newsletter Settings
                 </a>
                 <a
-                  href=" "
+                  onClick={() => dispatch(logout())}
                   className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
                 >
                   Log Out

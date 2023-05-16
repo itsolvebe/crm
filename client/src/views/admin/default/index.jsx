@@ -15,10 +15,17 @@ import DailyTraffic from "views/admin/default/components/DailyTraffic";
 import TaskCard from "views/admin/default/components/TaskCard";
 import tableDataCheck from "./variables/tableDataCheck.json";
 import tableDataComplex from "./variables/tableDataComplex.json";
+import ChatLayout from "views/chat/ChatLayout";
 
 const Dashboard = () => {
   return (
+    <>
     <h1>Main</h1>
+    <ChatLayout />
+    
+    </>
+
+    
 
     // Ese delete nahi krna
     // <div>
@@ -99,6 +106,7 @@ const Dashboard = () => {
     //     </div>
     //   </div>
     // </div>
+    
   );
 };
 

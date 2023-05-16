@@ -1,7 +1,7 @@
 import Footer from "components/footer/FooterAuthDefault";
 import authImg from "assets/img/auth/auth.png";
 import { Link, Routes, Route, Navigate } from "react-router-dom";
-import routes from "routes.js";
+import adminroutes from "adminroutes.js";
 import FixedPlugin from "components/fixedPlugin/FixedPlugin";
 
 export default function Auth() {
@@ -45,7 +45,7 @@ export default function Auth() {
                   </div>
                 </Link>
                 <Routes>
-                  {getRoutes(routes)}
+                  {getRoutes(adminroutes)}
                   <Route
                     path="/"
                     element={<Navigate to="/auth/sign-in" replace />}

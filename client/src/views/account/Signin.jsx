@@ -1,62 +1,74 @@
-import React, { useState } from "react";
+import Error from "components/Error";
+import Spinner from "components/Spinner";
+import { userLogin } from "features/auth/authActions";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signin() {
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const { loading, userInfo, error } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  //   const { auth } = useAuthContext();
+  const { register, handleSubmit } = useForm();
 
-  //   if (!auth.loading && auth.isLogged) {
-  //     window.location.href = "/dashboard";
-  //   }
+  const navigate = useNavigate();
 
-  const handleOnChange = (e) => {
-    const { id, value } = e.target;
-    setForm((prev) => ({ ...prev, [id]: value }));
+  // redirect authenticated user to profile screen
+  useEffect(() => {
+    if (userInfo) {
+      navigate("/admin/default");
+    }
+  }, [navigate, userInfo]);
+
+  const submitForm = (data) => {
+    dispatch(userLogin(data));
   };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    toast.success("Signin");
-    // alert("Signin");
-    // fetch("http://localhost:3001/api/auth/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(form),
-    // }).then((res) => {
-    //   res.json().then((data) => {
-    //     if (data.error === null) {
-    //       window.location.href = "/dashboard";
-    //       localStorage.setItem("token", data.data.token);
-    //     } else {
-    //       toast.error(data.error);
-    //     }
-    //   });
-    // });
-  };
+  // const handleOnSubmit = (e) => {
+  //   e.preventDefault();
+  //   toast.success("Signin");
+  //   // alert("Signin");
+  //   // fetch("http://localhost:3001/api/auth/login", {
+  //   //   method: "POST",
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   //   body: JSON.stringify(form),
+  //   // }).then((res) => {
+  //   //   res.json().then((data) => {
+  //   //     if (data.error === null) {
+  //   //       window.location.href = "/dashboard";
+  //   //       localStorage.setItem("token", data.data.token);
+  //   //     } else {
+  //   //       toast.error(data.error);
+  //   //     }
+  //   //   });
+  //   // });
+  // };
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleOnSubmit(e);
+      submitForm(e);
     }
   };
 
   return (
     <div className="flex h-screen w-screen p-4">
       <Toaster />
+
       <div className="flex h-full w-full flex-col items-center justify-center">
-        <div className="flex w-full flex-col gap-8 sm:w-[30rem]">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className="flex w-full flex-col gap-8 sm:w-[30rem]"
+        >
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-bold">Sign in</h1>
             <span className="font-medium text-[#00000074]">
               Let's signin to your ItSolve account.
             </span>
+            {error && <Error>{error}</Error>}
           </div>
           <div className="flex flex-col gap-8">
             <div className="flex w-full flex-col gap-2">
@@ -67,9 +79,10 @@ function Signin() {
                 type="text"
                 placeholder="john@itsolve.be"
                 id="email"
-                onChange={handleOnChange}
+                {...register("email")}
                 onKeyDown={handleOnKeyDown}
                 className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
+                required
               />
             </div>
 
@@ -79,18 +92,20 @@ function Signin() {
                 type="password"
                 placeholder="•••••••••"
                 id="password"
-                onChange={handleOnChange}
+                {...register("password")}
                 onKeyDown={handleOnKeyDown}
                 className="bg-transparent w-full rounded-lg border-2 border-[#0000001A] px-4 py-2 outline-none duration-300 focus:border-[#01A0C4] focus:bg-[#01A0C405] focus:outline-none"
+                required
               />
             </div>
 
             <div>
               <button
-                onClick={handleOnSubmit}
+                type="submit"
+                disabled={loading}
                 className="rounded-lg bg-navy-500 px-8 py-4 font-medium text-white duration-300 hover:bg-navy-300"
               >
-                Log in
+                {loading ? <Spinner /> : "Log in"}
               </button>
             </div>
 
@@ -103,7 +118,7 @@ function Signin() {
               </Link>
             </div>
           </div>
-        </div>
+        </form>
       </div>
       <div className="hidden h-full flex-col justify-center gap-8 rounded-2xl bg-[#0D1623] p-16 lg:flex lg:w-full">
         <img
