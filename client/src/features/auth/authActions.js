@@ -38,10 +38,7 @@ export const userLogin = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
   "user/register",
-  async (
-    { firstName, lastName, email, password, phoneNumber, role },
-    { rejectWithValue }
-  ) => {
+  async ({ firstName, email, password }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -51,7 +48,7 @@ export const registerUser = createAsyncThunk(
 
       await axios.post(
         `${backendURL}/api/user/register`,
-        { firstName, lastName, email, password, phoneNumber },
+        { firstName, email, password },
         config
       );
     } catch (error) {
@@ -60,37 +57,6 @@ export const registerUser = createAsyncThunk(
       } else {
         return rejectWithValue(error.message);
       }
-    }
-  }
-);
-
-export const loadUser = createAsyncThunk(
-  "auth/loadUser",
-  async (_, { rejectWithValue }) => {
-    try {
-      const userToken = localStorage.getItem("userToken");
-      if (!userToken) {
-        throw new Error("User token not found");
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      };
-
-      const { data } = await axios.get(
-        `${backendURL}/api/user/profile`,
-        config
-      );
-
-      return data;
-    } catch (error) {
-      // If loading user fails, remove the token from local storage
-      localStorage.removeItem("userToken");
-
-      // Return the error message
-      return rejectWithValue(error.message);
     }
   }
 );

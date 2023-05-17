@@ -54,6 +54,15 @@ const loginUser = asyncHandler(async (req, res) => {
       phoneNumber: user.phoneNumber,
       userToken: generateToken(user._id),
     });
+    console.log({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+      phoneNumber: user.phoneNumber,
+      userToken: generateToken(user._id),
+    });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");

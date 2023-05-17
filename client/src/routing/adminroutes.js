@@ -22,20 +22,20 @@ import {
 const adminroutes = [
   {
     name: "Main Dashboard",
-    layout: "/admin",
+    layout: "/dashboard",
     path: "default",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
 
-  // {
-  //   name: "NFT Marketplace",
-  //   layout: "/admin",
-  //   path: "nft-marketplace",
-  //   icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-  //   component: <NFTMarketplace />,
-  //   secondary: true,
-  // },
+  {
+    name: "NFT Marketplace",
+    layout: "/dashboard",
+    path: "nft-marketplace",
+    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+    component: <NFTMarketplace />,
+    secondary: true,
+  },
   // {
   //   name: "Data Tables",
   //   layout: "/admin",

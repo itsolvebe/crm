@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "components/dropdown";
 import { FiAlignJustify } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -18,10 +18,10 @@ import { logout } from "features/auth/authSlice";
 
 const Navbar = (props) => {
   const { onOpenSidenav, brandText } = props;
-  const [darkmode, setDarkmode] = React.useState(false);
+  const [darkmode, setDarkmode] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  console.log(userInfo);
+
   // automatically authenticate user if token is found
   const { data, isFetching } = useGetDetailsQuery("userDetails", {
     pollingInterval: 900000, // 15mins
@@ -30,7 +30,6 @@ const Navbar = (props) => {
   useEffect(() => {
     if (data) dispatch(setCredentials(data));
   }, [data, dispatch]);
-
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -118,10 +117,10 @@ const Navbar = (props) => {
                 </div>
                 <div className="ml-2 flex h-full w-full flex-col justify-center rounded-lg px-1 text-sm">
                   <p className="mb-1 text-left text-base font-bold text-gray-900 dark:text-white">
-                    New Update
+                    New Update: Horizon UI Dashboard PRO
                   </p>
                   <p className="font-base text-left text-xs text-gray-900 dark:text-white">
-                    A new update
+                    A new update for your downloaded item is available!
                   </p>
                 </div>
               </button>
@@ -129,8 +128,8 @@ const Navbar = (props) => {
           }
           classNames={"py-2 top-4 -left-[230px] md:-left-[440px] w-max"}
         />
-
-        {/* <Dropdown
+        {/* start Horizon PRO */}
+        <Dropdown
           button={
             <p className="cursor-pointer">
               <IoMdInformationCircleOutline className="h-4 w-4 text-gray-600 dark:text-white" />
@@ -171,7 +170,7 @@ const Navbar = (props) => {
           }
           classNames={"py-2 top-6 -left-[250px] md:-left-[330px] w-max"}
           animation="origin-[75%_0%] md:origin-top-right transition-all duration-300 ease-in-out"
-        /> */}
+        />
         <div
           className="cursor-pointer text-gray-600"
           onClick={() => {
@@ -223,16 +222,16 @@ const Navbar = (props) => {
                 </a>
                 <a
                   href=" "
-                  className="mt-3 text-sm text-gray-800 dark:text-white hover:dark:text-white"
+                  className="mt-3  text-sm text-gray-800 dark:text-white hover:dark:text-white"
                 >
                   Newsletter Settings
                 </a>
-                <a
+                <button
                   onClick={() => dispatch(logout())}
-                  className="mt-3 text-sm font-medium text-red-500 hover:text-red-500"
+                  className="mt-3 text-start text-sm font-medium text-red-500 hover:text-red-500"
                 >
                   Log Out
-                </a>
+                </button>
               </div>
             </div>
           }
