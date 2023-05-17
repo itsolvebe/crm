@@ -6,7 +6,6 @@ import {
   BrowserRouter,
   Router,
 } from "react-router-dom";
-
 import DashboardLayout from "layouts/dashboard";
 import ProtectedRoute from "./routing/ProtectedRoute";
 import Signin from "views/account/Signin";
@@ -15,7 +14,6 @@ import HomeScreen from "screens/HomeScreen";
 import LoginScreen from "screens/LoginScreen";
 import RegisterScreen from "screens/RegisterScreen";
 import Header from "components/Header/Header";
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -33,5 +31,4 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
 export default App;
