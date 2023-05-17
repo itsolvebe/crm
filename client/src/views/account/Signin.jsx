@@ -1,5 +1,5 @@
-import Error from "components/Error";
-import Spinner from "components/Spinner";
+import Error from "components/error/Error";
+import Spinner from "components/spinner/Spinner";
 import { userLogin } from "features/auth/authActions";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,35 +18,13 @@ function Signin() {
   // redirect authenticated user to profile screen
   useEffect(() => {
     if (userInfo) {
-      navigate("/admin/default");
+      navigate("/dashboard");
     }
   }, [navigate, userInfo]);
 
   const submitForm = (data) => {
     dispatch(userLogin(data));
   };
-
-  // const handleOnSubmit = (e) => {
-  //   e.preventDefault();
-  //   toast.success("Signin");
-  //   // alert("Signin");
-  //   // fetch("http://localhost:3001/api/auth/login", {
-  //   //   method: "POST",
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   //   body: JSON.stringify(form),
-  //   // }).then((res) => {
-  //   //   res.json().then((data) => {
-  //   //     if (data.error === null) {
-  //   //       window.location.href = "/dashboard";
-  //   //       localStorage.setItem("token", data.data.token);
-  //   //     } else {
-  //   //       toast.error(data.error);
-  //   //     }
-  //   //   });
-  //   // });
-  // };
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {

@@ -3,13 +3,13 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "components/navbar";
 import Sidebar from "components/sidebar";
 import Footer from "components/footer/Footer";
-import routes from "routes.js";
-
+// import routes from "routes.js";
+import userroutes from "routing/userroutes";
 export default function User(props) {
   const { ...rest } = props;
   const location = useLocation();
   const [open, setOpen] = React.useState(true);
-  const [currentRoute, setCurrentRoute] = React.useState("Main Dashboard");
+  const [currentRoute, setCurrentRoute] = React.useState("User Dashboard");
 
   React.useEffect(() => {
     window.addEventListener("resize", () =>
@@ -17,11 +17,11 @@ export default function User(props) {
     );
   }, []);
   React.useEffect(() => {
-    getActiveRoute(routes);
+    getActiveRoute(userroutes);
   }, [location.pathname]);
 
   const getActiveRoute = (routes) => {
-    let activeRoute = "Main Dashboard";
+    let activeRoute = "User Dashboard";
     for (let i = 0; i < routes.length; i++) {
       if (
         window.location.href.indexOf(
@@ -59,7 +59,11 @@ export default function User(props) {
   document.documentElement.dir = "ltr";
   return (
     <div className="flex h-full w-full">
-      <Sidebar open={open} onClose={() => setOpen(false)} />
+      <Sidebar
+        currroutes={userroutes}
+        open={open}
+        onClose={() => setOpen(false)}
+      />
       {/* Navbar & Main Content */}
       <div className="h-full w-full bg-lightPrimary dark:!bg-navy-900">
         {/* Main Content */}
@@ -72,12 +76,12 @@ export default function User(props) {
               onOpenSidenav={() => setOpen(true)}
               logoText={"Horizon UI Tailwind React"}
               brandText={currentRoute}
-              secondary={getActiveNavbar(routes)}
+              secondary={getActiveNavbar(userroutes)}
               {...rest}
             />
             <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
               <Routes>
-                {getRoutes(routes)}
+                {getRoutes(userroutes)}
 
                 <Route
                   path="/"

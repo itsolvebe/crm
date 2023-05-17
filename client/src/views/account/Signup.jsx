@@ -1,5 +1,5 @@
-import Error from "components/Error";
-import Spinner from "components/Spinner";
+import Error from "components/error/Error";
+import Spinner from "components/spinner/Spinner";
 import { registerUser } from "features/auth/authActions";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ function Signup() {
 
   useEffect(() => {
     // redirect authenticated user to profile screen
-    if (userInfo) navigate("/admin/default");
+    if (userInfo) navigate("/dashboard");
     // redirect user to login page if registration was successful
     if (success) navigate("/signin");
   }, [navigate, userInfo, success]);
@@ -36,27 +36,6 @@ function Signup() {
 
     dispatch(registerUser(data));
   };
-
-  // const handleOnSubmit = (e) => {
-  //   e.preventDefault();
-  //   toast.success("Signup");
-
-  //   // fetch("http://localhost:3001/api/auth/register", {
-  //   //   method: "POST",
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   //   body: JSON.stringify(form),
-  //   // }).then((res) => {
-  //   //   res.json().then((data) => {
-  //   //     if (data.error === null) {
-  //   //       window.location.href = "/login";
-  //   //     } else {
-  //   //       alert(data.error);
-  //   //     }
-  //   //   });
-  //   // });
-  // };
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {

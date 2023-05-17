@@ -1,10 +1,10 @@
 import React from "react";
 
 // Admin Imports
-import MainDashboard from "views/admin/default";
+import MainDashboard from "views/user/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
-import DataTables from "views/admin/tables";
+import DataTables from "views/user/tables";
 import RTLDefault from "views/rtl/default";
 
 // Auth Imports
@@ -19,10 +19,10 @@ import {
   MdLock,
 } from "react-icons/md";
 
-const adminroutes = [
+const userroutes = [
   {
-    name: "Main Dashboard",
-    layout: "/admin",
+    name: "User Dashboard",
+    layout: "/dashboard",
     path: "default",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
@@ -36,13 +36,13 @@ const adminroutes = [
   //   component: <NFTMarketplace />,
   //   secondary: true,
   // },
-  // {
-  //   name: "Data Tables",
-  //   layout: "/admin",
-  //   icon: <MdBarChart className="h-6 w-6" />,
-  //   path: "data-tables",
-  //   component: <DataTables />,
-  // },
+  {
+    name: "Data Tables",
+    layout: "/dashboard",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "data-tables",
+    component: <DataTables />,
+  },
   // {
   //   name: "Profile",
   //   layout: "/admin",
@@ -50,13 +50,13 @@ const adminroutes = [
   //   icon: <MdPerson className="h-6 w-6" />,
   //   component: <Profile />,
   // },
-  {
-    name: "Sign In",
-    layout: "/auth",
-    path: "sign-in",
-    icon: <MdLock className="h-6 w-6" />,
-    component: <SignIn />,
-  },
+  // {
+  //   name: "Sign In",
+  //   layout: "/auth",
+  //   path: "sign-in",
+  //   icon: <MdLock className="h-6 w-6" />,
+  //   component: <SignIn />,
+  // },
   // {
   //   name: "RTL Admin",
   //   layout: "/rtl",
@@ -65,4 +65,4 @@ const adminroutes = [
   //   component: <RTLDefault />,
   // },
 ];
-export default adminroutes;
+export default userroutes;

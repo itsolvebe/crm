@@ -7,70 +7,28 @@ import {
   Router,
 } from "react-router-dom";
 
-import AdminLayout from "layouts/admin";
-import UserLayout from "layouts/user";
-import LoginPage from "views/LoginPage";
-import RegisterPage from "views/RegisterPage";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ProfileScreen from "screens/ProfileScreen";
-import LoadingPage from "components/LoadingPage";
+import DashboardLayout from "layouts/dashboard";
+import ProtectedRoute from "./routing/ProtectedRoute";
 import Signin from "views/account/Signin";
 import Signup from "views/account/Signup";
-
-// const ProtectedRoute = ({ element: Element, role, ...rest }) => {
-//   // ... (existing code for ProtectedRoute)
-//   // No changes required here
-// };
+import HomeScreen from "screens/HomeScreen";
+import LoginScreen from "screens/LoginScreen";
+import RegisterScreen from "screens/RegisterScreen";
+import Header from "components/Header/Header";
 
 const App = () => {
   return (
-    // <BrowserRouter>
-    //   <Routes>
-    //     <Route path="/" element={<Navigate to="/login" replace />} />{" "}
-    //     {/* Redirect to login */}
-    //     <Route path="/login" element={<LoginPage />} />
-    //     <Route path="/register" element={<RegisterPage />} />
-    //     <Route
-    //       path="admin/*"
-    //       element={<ProtectedRoute element={<AdminLayout />} role="admin" />}
-    //     />
-    //     <Route
-    //       path="user/*"
-    //       element={<ProtectedRoute element={<UserLayout />} role="user" />}
-    //     />
-    //     {/* Other routes */}
-    //   </Routes>
-    // </BrowserRouter>
     <BrowserRouter>
-      {/* <Routes>
-        {/* <Route path="/" element={<h1>Home</h1>} /> 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="admin/*" element={<AdminLayout />} />
-
-        <Route
-          path="/"
-          element={
-            // <ProtectedRoute>
-            <AdminLayout />
-            // </ProtectedRoute>
-          }
-        />
-      </Routes> */}
-      <LoadingPage />
+      {/* <Header />   Dont Remove */}
       <Routes>
-        {/* <Route path="/" element={<AdminLayout />} /> */}
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
+        {/* <Route path="/" element={<HomeScreen />} /> */}
+        <Route path="/" element={<Signin />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<ProtectedRoute />}>
-          <Route path="admin/*" element={<AdminLayout />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="dashboard/*" element={<DashboardLayout />} />
         </Route>
-        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
