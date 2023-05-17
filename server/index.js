@@ -4,6 +4,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes.js");
+// const http = require('http');
+const socket = require('./socket');
+
 const { errorHandler, notFound } = require("./middleware/errorMiddleware.js");
 // const __dirname = path.resolve();
 
@@ -20,6 +23,8 @@ if (process.env.NODE_ENV === undefined) {
 connectDB();
 
 const app = express();
+// const server = http.createServer(app);
+const server = require("http").createServer(app);
 
 // Body parser
 app.use(express.json());
@@ -46,7 +51,12 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+// Set up Socket.IO
+
+socket.init(server);
+
+// const PORT = process.env.PORT || 5000;
+const PORT = 4000;
 app.listen(
   PORT,
   console.log(
@@ -54,3 +64,4 @@ app.listen(
     // .yellow.bold
   )
 );
+

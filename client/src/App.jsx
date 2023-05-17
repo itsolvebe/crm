@@ -12,14 +12,15 @@ import UserLayout from "layouts/user";
 import LoginPage from "views/LoginPage";
 import RegisterPage from "views/RegisterPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ProfileScreen from "screens/ProfileScreen";
+// import HomeScreen from "./screens/HomeScreen";
+// import LoginScreen from "./screens/LoginScreen";
+// import RegisterScreen from "./screens/RegisterScreen";
+// import ProfileScreen from "screens/ProfileScreen";
 import LoadingPage from "components/LoadingPage";
 import Signin from "views/account/Signin";
 import Signup from "views/account/Signup";
 import ChatLayout from "views/chat/ChatLayout";
+
 
 // const ProtectedRoute = ({ element: Element, role, ...rest }) => {
 //   // ... (existing code for ProtectedRoute)
@@ -27,6 +28,8 @@ import ChatLayout from "views/chat/ChatLayout";
 // };
 
 const App = () => {
+
+  
   return (
 
     // <BrowserRouter>
@@ -65,8 +68,8 @@ const App = () => {
       <LoadingPage />
       <Routes>
         {/* <Route path="/" element={<AdminLayout />} /> */}
-        <Route path="/login" element={<LoginScreen />} />
-        <Route path="/register" element={<RegisterScreen />} />
+        {/* <Route path="/login" element={<LoginScreen />} /> */}
+        {/* <Route path="/register" element={<RegisterScreen />} /> */}
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<ProtectedRoute />}>
