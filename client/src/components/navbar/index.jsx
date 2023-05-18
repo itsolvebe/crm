@@ -12,8 +12,6 @@ import {
 } from "react-icons/io";
 import avatar from "assets/img/avatars/avatar4.png";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetDetailsQuery } from "app/services/auth/authService";
-import { setCredentials } from "features/auth/authSlice";
 import { logout } from "features/auth/authSlice";
 
 const Navbar = (props) => {
@@ -22,14 +20,6 @@ const Navbar = (props) => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  // automatically authenticate user if token is found
-  const { data, isFetching } = useGetDetailsQuery("userDetails", {
-    pollingInterval: 900000, // 15mins
-  });
-
-  useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
   return (
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
       <div className="ml-[6px]">
@@ -203,9 +193,7 @@ const Navbar = (props) => {
               <div className="mt-3 ml-4">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-bold text-navy-700 dark:text-white">
-                    {isFetching
-                      ? `Fetching your profile...`
-                      : userInfo !== null
+                    {userInfo !== null
                       ? `👋 Hey, ${userInfo.firstName}`
                       : "You're not logged in"}
                   </p>

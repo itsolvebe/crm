@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Routes,
   Route,
@@ -14,10 +14,24 @@ import HomeScreen from "screens/HomeScreen";
 import LoginScreen from "screens/LoginScreen";
 import RegisterScreen from "screens/RegisterScreen";
 import Header from "components/Header/Header";
+import { useDispatch } from "react-redux";
+import { useGetDetailsQuery } from "app/services/auth/authService";
+import { setCredentials } from "features/auth/authSlice";
 const App = () => {
+  // const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  // automatically authenticate user if token is found
+  const { data, isFetching } = useGetDetailsQuery("userDetails", {
+    pollingInterval: 900000, // 15mins
+  });
+
+  useEffect(() => {
+    if (data) dispatch(setCredentials(data));
+  }, [data, dispatch]);
   return (
     <BrowserRouter>
-      {/* <Header />   Dont Remove */}
+      {/* <Header /> */}
       <Routes>
         {/* <Route path="/" element={<HomeScreen />} /> */}
         <Route path="/" element={<Signin />} />
