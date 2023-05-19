@@ -5,6 +5,7 @@ import MainDashboard from "views/admin/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/admin/profile";
 import DataTables from "views/admin/tables";
+import Ticket from "views/admin/ticket";
 import RTLDefault from "views/rtl/default";
 
 // Auth Imports
@@ -21,35 +22,41 @@ import {
 
 const adminroutes = [
   {
-    name: "Main Dashboard",
+    name: "Dashboard",
     layout: "/dashboard",
     path: "default",
     icon: <MdHome className="h-6 w-6" />,
     component: <MainDashboard />,
   },
-
   {
-    name: "NFT Marketplace",
+    name: "Tickets",
     layout: "/dashboard",
-    path: "nft-marketplace",
-    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    component: <NFTMarketplace />,
-    secondary: true,
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "tickets",
+    component: <Ticket />,
   },
   // {
+  //   name: "NFT Marketplace",
+  //   layout: "/dashboard",
+  //   path: "nft-marketplace",
+  //   icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+  //   component: <NFTMarketplace />,
+  //   secondary: true,
+  // },
+  // {
   //   name: "Data Tables",
-  //   layout: "/admin",
+  //   layout: "/dashboard",
   //   icon: <MdBarChart className="h-6 w-6" />,
   //   path: "data-tables",
   //   component: <DataTables />,
   // },
-  // {
-  //   name: "Profile",
-  //   layout: "/admin",
-  //   path: "profile",
-  //   icon: <MdPerson className="h-6 w-6" />,
-  //   component: <Profile />,
-  // },
+  {
+    name: "Profile",
+    layout: "/dashboard",
+    path: "profile",
+    icon: <MdPerson className="h-6 w-6" />,
+    component: <Profile />,
+  },
   // {
   //   name: "Sign In",
   //   layout: "/auth",
