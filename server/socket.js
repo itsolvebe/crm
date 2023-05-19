@@ -1,5 +1,5 @@
 const socketIO = require("socket.io");
-// const Chat = require('./models/chat');
+const Chat = require('./model/Chat');
 
 // const server = require("http").createServer(app);
 // const io = require("socket.io")(server, {
@@ -27,12 +27,16 @@ function init(server) {
       console.log("Data: ", data);
 
       // Save the message to MongoDB
-      //   const newChat = new Chat({ sender, receiver, message });
-      //   await newChat.save();
+        const newChat = new Chat({ 
+          admin: "1",
+          client: "2",
+          message: message,
+       });
+        await newChat.save();
 
       // Emit the message to the sender and receiver
-      // socket.emit("newMessage", newChat);
-      // socket.to(receiver).emit("newMessage", newChat);
+      socket.emit("newMessage", newChat);
+      socket.to(receiver).emit("newMessage", newChat);
     });
 
     socket.on("disconnect", () => {
