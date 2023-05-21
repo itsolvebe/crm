@@ -6,7 +6,7 @@ const chatController = require('../controllers/chatController');
 router.post('/message/create', chatController.createChatMessage);
 
 // Get all chat messages between two users
-router.get('/message/get', chatController.getChatMessages);
+router.post('/message/get', chatController.getChatMessages);
 
 // Update a chat message
 router.put('/message/update', chatController.updateChatMessage);

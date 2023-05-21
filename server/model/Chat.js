@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const chatSchema = new mongoose.Schema({
   participants: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
+      // type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
@@ -11,12 +12,14 @@ const chatSchema = new mongoose.Schema({
   messages: [
     {
       sender: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
       },
       receiver: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
       },

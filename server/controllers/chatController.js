@@ -1,9 +1,10 @@
-const Chat = require('../model/Chat');
+const Chat = require("../model/Chat");
 
 // Create a new chat message
 exports.createChatMessage = async (req, res) => {
   try {
-    const { sender, receiver, content } = req.body;
+    const { sender, receiver, content, isSocket } = req.body;
+    console.log("Ds: ", { sender, receiver, content, isSocket });
 
     const chat = await Chat.findOne({
       participants: {
@@ -31,9 +32,17 @@ exports.createChatMessage = async (req, res) => {
       chat = await newChat.save();
     }
 
-    res.status(201).json(chat);
+    if (isSocket) {
+      return chat;
+    } else {
+      res.status(201).json(chat);
+    }
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create chat message' });
+    if (isSocket) {
+      return error;
+    } else {
+      res.status(500).json({ error: "Failed to create chat message" });
+    }
   }
 };
 
@@ -47,14 +56,17 @@ exports.getChatMessages = async (req, res) => {
         $all: [sender, receiver],
       },
     });
+    // const chat = await Chat.findOne({
+    //   participants: sender,
+    // });
 
     if (!chat) {
-      return res.status(404).json({ error: 'Chat not found' });
+      return res.status(404).json({ error: "Chats not found" });
     }
 
     res.json(chat.messages);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to get chat messages' });
+    res.status(500).json({ error: "Failed to get chat messages" });
   }
 };
 
@@ -66,13 +78,13 @@ exports.updateChatMessage = async (req, res) => {
     const chat = await Chat.findById(chatId);
 
     if (!chat) {
-      return res.status(404).json({ error: 'Chat not found' });
+      return res.status(404).json({ error: "Chat not found" });
     }
 
     const message = chat.messages.id(messageId);
 
     if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
+      return res.status(404).json({ error: "Message not found" });
     }
 
     message.content = content;
@@ -80,7 +92,7 @@ exports.updateChatMessage = async (req, res) => {
 
     res.json(chat);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update chat message' });
+    res.status(500).json({ error: "Failed to update chat message" });
   }
 };
 
@@ -92,13 +104,13 @@ exports.deleteChatMessage = async (req, res) => {
     const chat = await Chat.findById(chatId);
 
     if (!chat) {
-      return res.status(404).json({ error: 'Chat not found' });
+      return res.status(404).json({ error: "Chat not found" });
     }
 
     const message = chat.messages.id(messageId);
 
     if (!message) {
-      return res.status(404).json({ error: 'Message not found' });
+      return res.status(404).json({ error: "Message not found" });
     }
 
     message.remove();
@@ -106,6 +118,6 @@ exports.deleteChatMessage = async (req, res) => {
 
     res.json(chat);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete chat message' });
+    res.status(500).json({ error: "Failed to delete chat message" });
   }
 };

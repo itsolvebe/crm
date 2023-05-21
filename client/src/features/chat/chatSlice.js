@@ -75,6 +75,7 @@ const chatSlice = createSlice({
       state.error = action.payload;
     },
   },
+  
 });
 
 export const { setChatMessages, addChatMessage, updateChatMessage, deleteChatMessage } = chatSlice.actions;

@@ -1,5 +1,8 @@
 const socketIO = require("socket.io");
-const Chat = require('./model/Chat');
+// Import the createChatMessage controller
+const { createChatMessage } = require("./controllers/chatController");
+
+// const Chat = require("./model/Chat");
 
 // const server = require("http").createServer(app);
 // const io = require("socket.io")(server, {
@@ -20,23 +23,57 @@ function init(server) {
   });
 
   io.on("connection", (socket) => {
-    console.log("A user connected");
+    console.log("A new user connected ");
+
+    socket.on("joinRoom", (room) => {
+      socket.join(room);
+      console.log(`User joined room: ${room}`);
+    });
 
     socket.on("sendMessage", async (data) => {
-      const { sender, receiver, message } = data;
+      const { sender, receiver, content } = data;
       console.log("Data: ", data);
 
       // Save the message to MongoDB
-        const newChat = new Chat({ 
-          admin: "1",
-          client: "2",
-          message: message,
-       });
-        await newChat.save();
+      // const newChat = new Chat({
+      //   sender: sender,
+      //   receiver: receiver,
+      //   content: content,
+      // });
+      // await newChat.save();
+
+      // Create the chat message using the createChatMessage controller
+      const chat = await createChatMessage({
+        body: {
+          sender,
+          receiver,
+          content,
+          isSocket: true,
+        },
+      });
+      await chat.save();
 
       // Emit the message to the sender and receiver
-      socket.emit("newMessage", newChat);
-      socket.to(receiver).emit("newMessage", newChat);
+      console.log("ChatID: on socket server ", chat._id);
+
+      // socket.join(chat._id); // Join the specified room
+      // console.log(`User joined room: ${chat._id}`);
+
+      // socket.emit("newMessage", { sender, receiver, content });
+      // Send the message to all clients in the room
+      io.to("123").emit("newMessage", { sender, receiver, content });
+    });
+
+    socket.on("userTyping", async (data) => {
+      console.log("user typing data: ", data);
+      io.to("123").emit("userIsTyping", {
+        userWhichIsTyping: data.userWhichIsTyping,
+        typing: data.userisTyping,
+      });
+    });
+
+    socket.on("userAcknowledgeMsgReceived", async (data) => {
+      console.log("Msg received acknowledge: ", data);
     });
 
     socket.on("disconnect", () => {
