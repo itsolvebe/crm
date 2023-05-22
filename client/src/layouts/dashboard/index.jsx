@@ -6,10 +6,12 @@ import Footer from "components/footer/Footer";
 // import routes from "routes.js";
 import adminroute from "routing/adminroutes";
 import userroute from "routing/userroutes";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import bg from "assets/img/dashboards/bg.svg";
+import { useDisclosure } from "@chakra-ui/hooks";
+import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/modal";
+import CardHorizon from "components/card";
 
-// const user = "User";
 export default function Admin(props) {
   const { ...rest } = props;
   const { userInfo } = useSelector((state) => state.auth);
@@ -32,7 +34,7 @@ export default function Admin(props) {
       window.innerWidth < 1200 ? setOpen(false) : setOpen(true)
     );
   }, []);
-  React.useEffect(() => {
+  useEffect(() => {
     getActiveRoute(route);
   }, [location.pathname]);
 
@@ -74,52 +76,46 @@ export default function Admin(props) {
 
   document.documentElement.dir = "ltr";
   return (
-    <>
-      <div className="flex h-full w-full">
-        <Sidebar
-          currroutes={route}
-          open={open}
-          onClose={() => setOpen(false)}
-        />
-        {/* Navbar & Main Content */}
-        <div
-          className="h-full w-full dark:!bg-navy-900"
-          style={{
-            backgroundImage: `url(${bg})`,
-            backgroundPosition: "382px -62px",
-            backgroundSize: "cover",
-          }}
-        >
-          {/* Main Content */}
-          <div className="xl:ml-[263px] ">
-            <Navbar
-              onOpenSidenav={() => setOpen(true)}
-              logoText={"Horizon UI Tailwind React"}
-              brandText={currentRoute}
-              secondary={getActiveNavbar(route)}
-              {...rest}
-            />
-            <main className={`mx-[12px] h-full flex-none transition-all  `}>
-              {/* Routes */}
-              <div className="h-full">
-                <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
-                  <Routes>
-                    {getRoutes(route)}
+    <div className="flex h-full w-full">
+      <Sidebar currroutes={route} open={open} onClose={() => setOpen(false)} />
+      {/* Navbar & Main Content */}
+      <div
+        className="h-full w-full dark:!bg-navy-900"
+        style={{
+          backgroundImage: `url(${bg})`,
+          backgroundPosition: "382px -62px",
+          backgroundSize: "cover",
+        }}
+      >
+        {/* Main Content */}
+        <div className="xl:ml-[263px] ">
+          <Navbar
+            onOpenSidenav={() => setOpen(true)}
+            logoText={"Horizon UI Tailwind React"}
+            brandText={currentRoute}
+            secondary={getActiveNavbar(route)}
+            {...rest}
+          />
+          <main className={` mx-[12px] h-full flex-none  transition-all`}>
+            {/* Routes */}
+            <div className="h-full">
+              <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
+                <Routes>
+                  {getRoutes(route)}
 
-                    <Route
-                      path="/"
-                      element={<Navigate to="/dashboard/default" replace />}
-                    />
-                  </Routes>
-                </div>
-                <div className="p-3">
-                  <Footer />
-                </div>
+                  <Route
+                    path="/"
+                    element={<Navigate to="/dashboard/default" replace />}
+                  />
+                </Routes>
               </div>
-            </main>
-          </div>
+              <div className="p-3">
+                <Footer />
+              </div>
+            </div>
+          </main>
         </div>
       </div>
-    </>
+    </div>
   );
 }

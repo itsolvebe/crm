@@ -5,6 +5,7 @@ import MainDashboard from "views/user/default";
 import NFTMarketplace from "views/admin/marketplace";
 import Profile from "views/user/profile";
 import DataTables from "views/user/tables";
+import Tickets from "views/user/tickets";
 import RTLDefault from "views/rtl/default";
 
 // Auth Imports
@@ -35,6 +36,13 @@ const userroutes = [
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     component: <NFTMarketplace />,
     secondary: true,
+  },
+  {
+    name: "Tickets",
+    layout: "/dashboard",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "tickets",
+    component: <Tickets />,
   },
   {
     name: "Data Tables",

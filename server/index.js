@@ -4,8 +4,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes.js");
+const ticketRoutes = require("./routes/ticketRoutes.js");
 // const http = require('http');
-const socket = require('./socket');
+const socket = require("./socket");
 
 const { errorHandler, notFound } = require("./middleware/errorMiddleware.js");
 // const __dirname = path.resolve();
@@ -38,6 +39,7 @@ app.use(
 
 // API routes
 app.use("/api/user", userRoutes);
+app.use("/api/tickets", ticketRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
@@ -64,4 +66,3 @@ app.listen(
     // .yellow.bold
   )
 );
-

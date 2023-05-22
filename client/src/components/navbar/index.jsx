@@ -21,7 +21,10 @@ const Navbar = (props) => {
   const dispatch = useDispatch();
 
   return (
-    <nav className="sticky top-0 z-40 flex flex-row flex-wrap items-center justify-between bg-white/20 p-2 shadow-md backdrop-blur-xl  dark:bg-[#0b14374d]">
+    <nav
+      // style={{ zIndex: 10 }}
+      className="sticky top-0 z-10 flex flex-row flex-wrap items-center justify-between bg-white/20 p-2 shadow-md backdrop-blur-xl  dark:bg-[#0b14374d]"
+    >
       <div className="ml-[6px]">
         <div className="h-6 w-[224px] pt-1">
           <a
