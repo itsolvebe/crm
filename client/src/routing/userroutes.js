@@ -18,6 +18,7 @@ import {
   MdPerson,
   MdLock,
 } from "react-icons/md";
+import ChatLayout from "views/user/chat/ChatLayout";
 
 const userroutes = [
   {
@@ -42,6 +43,13 @@ const userroutes = [
     icon: <MdBarChart className="h-6 w-6" />,
     path: "data-tables",
     component: <DataTables />,
+  },
+  {
+    name: "Chat",
+    layout: "/dashboard",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "chat",
+    component: <ChatLayout />,
   },
   {
     name: "Profile",
