@@ -28,7 +28,7 @@ function Signin() {
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
-      submitForm(e);
+      handleSubmit(submitForm)();
     }
   };
 

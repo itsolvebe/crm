@@ -1,44 +1,54 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import { RiSendPlaneFill } from "react-icons/ri";
 import socket from "../../../Socket";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { setChatMessages } from "features/chat/chatSlice";
+import toast, { Toaster } from "react-hot-toast";
+// import { setChatMessages } from "features/chat/chatSlice";
 import { fetchChatMessages } from "features/chat/chatActions";
-import { columnsDataComplex } from "../default/variables/columnsData";
-import { addChatMessage } from "features/chat/chatSlice";
+// import { columnsDataComplex } from "../default/variables/columnsData";
+// import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
 
 function Chat() {
-  const [update, setUpdate] = useState(false);
-  const [room, setRoom] = useState("");
-  console.log("ROOM ID: ", room);
+  // const [update, setUpdate] = useState(false);
+  // const [room, setRoom] = useState("");
+  // console.log("ROOM ID: ", room);
+  // const [userIsTyping, setUserIsTyping] = useState({
+  //   userWhichIsTyping: "",
+  //   typing: false,
+  // });
   const [userIsTyping, setUserIsTyping] = useState({
-    userWhichIsTyping: "",
-    typing: false,
+    userWhichIsTyping: Array.from(new Set()),
   });
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, setValue, reset } = useForm({
     defaultValues: {
       senderMessage: "",
     },
   });
-  const dispatch = useDispatch();
 
-  console.log("Someone is typing::: ", userIsTyping);
+  const dispatch = useDispatch();
+  console.log("Someone is typing USESTATE:::  >> ", userIsTyping);
 
   // Getting userInfo through useSelector
   const { userInfo } = useSelector((state) => state.auth);
   console.log("USE SELECTOR user: ", userInfo);
 
   // Getting data through useSelector to show on a UI
-  const { chatMessages } = useSelector((state) => state.chat);
+  const { chatParticipants, chatMessages } = useSelector((state) => state.chat);
   console.log("USE SELECTOR Chat <<>>>", chatMessages);
+  console.log("USE SELECTOR Participants <<>>>", chatParticipants);
 
-  // Handle receiving new messages
+  const opponentUserId = chatParticipants.filter((e) => e !== userInfo["_id"]);
+  // console.log("OpponentUserId: ", ...opponentUserId);
+
   useEffect(() => {
+    // Send info about user who joined room
     socket.emit("joinRoom", "123");
 
+    // Fetching and Adding data from DB to Redux Store
     dispatch(
       fetchChatMessages({
         sender: userInfo["_id"],
@@ -46,21 +56,7 @@ function Chat() {
       })
     );
 
-    console.log("====================================");
-    console.log("UseEffect 1st");
-    console.log("====================================");
-
-    // socket.on("newMessage", (data) => {
-    //   console.log("Data receiving from server 2nd effect: ", data);
-    //   // Dispatching chat data to our chatSlice to maintain state
-    //   dispatch(
-    //     fetchChatMessages({
-    //       sender: userInfo["_id"],
-    //       receiver: "64688d0ec3fe9678234c4916",
-    //     })
-    //   );
-    // });
-
+    // Listening to the incoming message from recipient
     socket.on("newMessage", (data) => {
       console.log("Data receiving from server ..: ", data);
       // Dispatching chat data to our chatSlice to maintain state
@@ -70,82 +66,80 @@ function Chat() {
           receiver: "64688d0ec3fe9678234c4916",
         })
       );
-      socket.emit("userAcknowledgeMsgReceived", { mydata: "ack" });
-      // setUpdate(!update);
+      // If message is received, we are sending acknowledgment message
+      socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
     });
 
     // Listen for the userIsTyping event from the server
     socket.on("userIsTyping", (data) => {
-      setUserIsTyping(data);
+      // Add info about user who is typing in the state
+      setUserIsTyping((prevUserIsTyping) => ({
+        ...prevUserIsTyping,
+        userWhichIsTyping: [
+          ...prevUserIsTyping.userWhichIsTyping,
+          data.userWhichIsTyping,
+        ],
+      }));
       console.log("Someone in the room is typing");
-      // Perform any desired actions when someone is typing in the room
     });
 
+    // Listen for the userIsTyping event from the server
+    socket.on("userIsNotTyping", (data) => {
+      // Add info about user who is typing in the state
+      setUserIsTyping((prevUserIsTyping) => ({
+        ...prevUserIsTyping,
+        userWhichIsTyping: prevUserIsTyping.userWhichIsTyping.filter(
+          (elem) => elem !== data.userWhichIsTyping
+        ),
+      }));
+
+      console.log("Someone in the room is typing");
+    });
+    // Cleanup the event listener when the component unmounts
     return () => {
       socket.off("disconnect");
     };
-
-    // socket.on("newMessage", (data) => {
-    //   console.log("Data receiving from server: ", data);
-    //   // Dispatching chat data to our chatSlice to maintain state
-    //   // dispatch(addChatMessage(data));
-    //   dispatch(
-    //     fetchChatMessages({
-    //       sender: userInfo["_id"],
-    //       receiver: "64688d0ec3fe9678234c4916",
-    //     })
-    //   );
-    // });
-    // Cleanup the event listener when the component unmounts
   }, []);
 
-  useEffect(() => {
-    // const roomId = Math.random().toString(36).substr(2, 5);
-    // setRoom(roomId);
-    // socket.on("newMessage", (data) => {
-    //   console.log("Data receiving from server 2nd effect: ", data);
-    //   // Dispatching chat data to our chatSlice to maintain state
-    //   // dispatch(addChatMessage(data));
-    //   // dispatch(
-    //   //   fetchChatMessages({
-    //   //     sender: userInfo["_id"],
-    //   //     receiver: "64688d0ec3fe9678234c4916",
-    //   //   })
-    //   // );
-    // });
-    // return () => {
-    //   socket.off("disconnect");
-    // };
-  }, []);
-  // console.log("updated after effect")
-
-  const onSubmit = (data) => {
-    console.log("Data inside onSubmit client", data);
+  const submitForm = (data) => {
+    console.log("Input Ready: ", data);
+    // If input is empty then it message cannot be sent
+    if (data.senderMessage === "") {
+      console.log("Sender message is empty");
+      return toast.error("Can't Sent Empty Input");
+    }
+    console.log("Data inside submitForm client", data);
     // Send chat message
     socket.emit("sendMessage", {
       sender: userInfo._id,
       receiver: "64688d0ec3fe9678234c4916",
       content: data.senderMessage,
     });
-    socket.emit("userTyping", {
+    socket.emit("userNotTyping", {
       userWhichIsTyping: userInfo["_id"],
-      userisTyping: false,
     });
+
     reset();
   };
 
   const handleOnKeyDown = (e) => {
     if (e.key === "Enter") {
-      handleSubmit(onSubmit)();
+      // Manually Update React Hook form value when press Enter Btn
+      setValue("senderMessage", e.target.value);
+      handleSubmit(submitForm)();
     }
   };
 
   const handleUserTyping = (e) => {
-    console.log("user is typing client");
-    socket.emit("userTyping", {
-      userWhichIsTyping: userInfo["_id"],
-      userisTyping: true,
-    });
+    console.log("Input: ", e.target.value);
+    if (e.target.value.length === 1) {
+      console.log("user is typing client .. ", e.target.value);
+      socket.emit("userTyping", {
+        userWhichIsTyping: userInfo["_id"],
+      });
+      return;
+    }
+    return;
   };
 
   const convertIntoFormattedTime = (time) => {
@@ -189,11 +183,12 @@ function Chat() {
       </div>
       {/* Message container  */}
       <div className="flex h-full flex-col overflow-y-auto ">
+        <Toaster />
         {/* Messages */}
         <div className="flex flex-1 flex-col justify-end gap-4  p-2">
           {chatMessages?.map((element, index) => {
             return (
-              <>
+              <React.Fragment key={index}>
                 {element.sender === userInfo._id ? (
                   // {/* Sender Message */}
                   <div className="flex items-center justify-end gap-2">
@@ -225,28 +220,27 @@ function Chat() {
                     </div>
                   </div>
                 )}
-              </>
+              </React.Fragment>
             );
           })}
           {/* Display three dots if opponent is typing */}
-          {userIsTyping.userWhichIsTyping !== userInfo._id &&
-            userIsTyping.typing === true && (
-              <ThreeDots
-                height={50}
-                width={50}
-                radius={10}
-                color="#BEBEBE"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />
-            )}
+          {userIsTyping.userWhichIsTyping.includes(...opponentUserId) && (
+            <ThreeDots
+              height={50}
+              width={50}
+              radius={10}
+              color="#BEBEBE"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          )}
         </div>
 
         {/* Bottom Input container */}
         <div className="flex items-center justify-around gap-2  px-4">
-          <label for="file_input">
+          <label htmlFor="file_input">
             <HiOutlinePaperClip className="hover:text-blue-500 " size={24} />
             <input type="file" id="file_input" className="hidden" />
           </label>
@@ -255,14 +249,14 @@ function Chat() {
               type="text"
               className="w-5/6 px-1 py-1 focus:outline-none"
               placeholder="Write message"
-              onKeyDown={handleOnKeyDown}
               {...register("senderMessage")}
               onChange={handleUserTyping}
+              onKeyDown={handleOnKeyDown}
             />
             <RiSendPlaneFill
               className="text-blue-700 hover:text-blue-400"
               size={24}
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(submitForm)}
             />
           </div>
         </div>

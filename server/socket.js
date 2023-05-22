@@ -1,16 +1,5 @@
 const socketIO = require("socket.io");
-// Import the createChatMessage controller
 const { createChatMessage } = require("./controllers/chatController");
-
-// const Chat = require("./model/Chat");
-
-// const server = require("http").createServer(app);
-// const io = require("socket.io")(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
 
 let io;
 
@@ -34,15 +23,7 @@ function init(server) {
       const { sender, receiver, content } = data;
       console.log("Data: ", data);
 
-      // Save the message to MongoDB
-      // const newChat = new Chat({
-      //   sender: sender,
-      //   receiver: receiver,
-      //   content: content,
-      // });
-      // await newChat.save();
-
-      // Create the chat message using the createChatMessage controller
+      // Create an save the chat message using the createChatMessage controller
       const chat = await createChatMessage({
         body: {
           sender,
@@ -56,26 +37,32 @@ function init(server) {
       // Emit the message to the sender and receiver
       console.log("ChatID: on socket server ", chat._id);
 
-      // socket.join(chat._id); // Join the specified room
-      // console.log(`User joined room: ${chat._id}`);
-
-      // socket.emit("newMessage", { sender, receiver, content });
       // Send the message to all clients in the room
       io.to("123").emit("newMessage", { sender, receiver, content });
     });
 
+    // Listening when user is typing
     socket.on("userTyping", async (data) => {
       console.log("user typing data: ", data);
       io.to("123").emit("userIsTyping", {
         userWhichIsTyping: data.userWhichIsTyping,
-        typing: data.userisTyping,
+        // typing: data.userisTyping,
+      });
+    });
+    // Listening when user stopped typing
+    socket.on("userNotTyping", async (data) => {
+      console.log("user typing data: ", data);
+      io.to("123").emit("userIsNotTyping", {
+        userWhichIsTyping: data.userWhichIsTyping,
       });
     });
 
+    // Listening to acknowledgement message (handshake)
     socket.on("userAcknowledgeMsgReceived", async (data) => {
       console.log("Msg received acknowledge: ", data);
     });
 
+    // Listening if user is disconnected
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });

@@ -1,14 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
-import {fetchChatMessages, createChatMessages, updateChatMessages, } from './chatActions'
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchChatMessages,
+  createChatMessages,
+  updateChatMessages,
+} from "./chatActions";
 
 const initialState = {
   loading: false,
   error: null,
+  chatParticipants: [],
   chatMessages: [],
 };
 
 const chatSlice = createSlice({
-  name: 'chat',
+  name: "chat",
   initialState,
   reducers: {
     setChatMessages: (state, action) => {
@@ -19,14 +24,18 @@ const chatSlice = createSlice({
     },
     updateChatMessage: (state, action) => {
       const { messageId, content } = action.payload;
-      const messageIndex = state.chatMessages.findIndex((message) => message._id === messageId);
+      const messageIndex = state.chatMessages.findIndex(
+        (message) => message._id === messageId
+      );
       if (messageIndex !== -1) {
         state.chatMessages[messageIndex].content = content;
       }
     },
     deleteChatMessage: (state, action) => {
       const messageId = action.payload;
-      const messageIndex = state.chatMessages.findIndex((message) => message._id === messageId);
+      const messageIndex = state.chatMessages.findIndex(
+        (message) => message._id === messageId
+      );
       if (messageIndex !== -1) {
         state.chatMessages.splice(messageIndex, 1);
       }
@@ -39,7 +48,9 @@ const chatSlice = createSlice({
     },
     [fetchChatMessages.fulfilled]: (state, action) => {
       state.loading = false;
-      state.chatMessages = action.payload;
+      console.log("fetchMsg payload: ,", action.payload);
+      state.chatParticipants = action.payload.participants;
+      state.chatMessages = action.payload.messages;
     },
     [fetchChatMessages.rejected]: (state, action) => {
       state.loading = false;
@@ -65,7 +76,9 @@ const chatSlice = createSlice({
       state.loading = false;
       // Update the content of the updated chat message
       const { messageId, content } = action.payload;
-      const messageIndex = state.chatMessages.findIndex((message) => message._id === messageId);
+      const messageIndex = state.chatMessages.findIndex(
+        (message) => message._id === messageId
+      );
       if (messageIndex !== -1) {
         state.chatMessages[messageIndex].content = content;
       }
@@ -75,9 +88,13 @@ const chatSlice = createSlice({
       state.error = action.payload;
     },
   },
-  
 });
 
-export const { setChatMessages, addChatMessage, updateChatMessage, deleteChatMessage } = chatSlice.actions;
+export const {
+  setChatMessages,
+  addChatMessage,
+  updateChatMessage,
+  deleteChatMessage,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

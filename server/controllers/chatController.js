@@ -63,8 +63,9 @@ exports.getChatMessages = async (req, res) => {
     if (!chat) {
       return res.status(404).json({ error: "Chats not found" });
     }
+    // console.log("chat msgs; server controller: ", chat);
 
-    res.json(chat.messages);
+    res.json(chat);
   } catch (error) {
     res.status(500).json({ error: "Failed to get chat messages" });
   }
