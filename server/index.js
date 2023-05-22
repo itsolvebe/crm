@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes.js");
 const ticketRoutes = require("./routes/ticketRoutes.js");
+const chatRoutes = require("./routes/chatRoutes.js");
 // const http = require('http');
 const socket = require("./socket");
 
@@ -40,6 +41,7 @@ app.use(
 // API routes
 app.use("/api/user", userRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/chat", chatRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));

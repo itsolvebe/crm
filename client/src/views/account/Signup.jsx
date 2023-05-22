@@ -4,6 +4,7 @@ import { registerUser } from "features/auth/authActions";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import { MdError } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -27,6 +28,7 @@ function Signup() {
 
   const submitForm = (data) => {
     // check if passwords match
+    console.log("data: ", data)
     if (data.password !== data.confirmPassword) {
       setCustomError("Password mismatch");
       return;
