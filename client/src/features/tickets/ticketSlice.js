@@ -1,62 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
-// import { closeModal } from "features/modal/modalSlice";
-// const backendURL = "http://localhost:4000";
-
-// const ticketSlice = createSlice({
-//   name: "ticket",
-//   initialState: {
-//     loading: false,
-//     error: null,
-//     success: false,
-//     tickets: null,
-//   },
-//   reducers: {
-//     createTicketStart(state) {
-//       state.loading = true;
-//       state.error = null;
-//       state.success = false;
-//     },
-//     createTicketSuccess(state) {
-//       state.loading = false;
-//       state.error = null;
-//       state.success = true;
-//     },
-//     createTicketFailure(state, action) {
-//       state.loading = false;
-//       state.error = action.payload;
-//       state.success = false;
-//     },
-//     getClientTicketStart(state) {
-//       state.loading = true;
-//       state.error = null;
-//       state.success = false;
-//     },
-//     getClientTicketSuccess(state, action) {
-//       state.loading = false;
-//       state.error = null;
-//       state.success = true;
-//       state.tickets = action.payload;
-//     },
-//     getClientTicketFailure(state, action) {
-//       state.loading = false;
-//       state.error = action.payload;
-//       state.success = false;
-//     },
-//   },
-// });
-
-// export const {
-//   createTicketStart,
-//   createTicketSuccess,
-//   createTicketFailure,
-//   getClientTicketStart,
-//   getClientTicketSuccess,
-//   getClientTicketFailure,
-// } = ticketSlice.actions;
-
-// export default ticketSlice.reducer;
-
 import { createSlice } from "@reduxjs/toolkit";
 import { createTicket, getClientTickets } from "./ticketActions";
 
@@ -65,22 +6,19 @@ const initialState = {
   ticketInfo: [],
   error: null,
   success: false,
+  modalIsOpen: false,
 };
 
 const ticketSlice = createSlice({
   name: "ticket",
   initialState,
   reducers: {
-    // logout: (state) => {
-    //   localStorage.removeItem("userToken"); // delete token from storage
-    //   state.loading = false;
-    //   state.ticketInfo = null;
-    //   state.userToken = null;
-    //   state.error = null;
-    // },
-    // setCredentials: (state, { payload }) => {
-    //   state.ticketInfo = payload;
-    // },
+    openModal: (state) => {
+      state.modalIsOpen = true;
+    },
+    closeModal: (state) => {
+      state.modalIsOpen = false;
+    },
   },
   extraReducers: {
     // login user
@@ -104,6 +42,7 @@ const ticketSlice = createSlice({
     [createTicket.fulfilled]: (state) => {
       state.loading = false;
       state.success = true;
+      state.modalIsOpen = false;
     },
     [createTicket.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -112,6 +51,6 @@ const ticketSlice = createSlice({
   },
 });
 
-// export const { logout, setCredentials } = ticketSlice.actions;
+export const { openModal, closeModal } = ticketSlice.actions;
 
 export default ticketSlice.reducer;

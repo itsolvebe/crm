@@ -8,7 +8,7 @@ import {
   useTable,
 } from "react-table";
 import { useDispatch } from "react-redux";
-import { openModal } from "features/modal/modalSlice";
+import { openModal } from "features/tickets/ticketSlice";
 
 const ColumnsTable = (props) => {
   const { columnsData, tableData } = props;

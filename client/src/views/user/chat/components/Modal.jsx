@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeModal } from "features/modal/modalSlice";
 import Datepicker from "tailwind-datepicker-react";
 import { useForm } from "react-hook-form";
 import { createTicket } from "features/tickets/ticketActions";
+import { closeModal } from "features/tickets/ticketSlice";
 
 const options = {
   title: "Set Project Deadline",

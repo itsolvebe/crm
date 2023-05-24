@@ -1,8 +1,8 @@
 import { BsPlusCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal } from "features/modal/modalSlice";
 import { useEffect } from "react";
 import { getClientTickets } from "features/tickets/ticketActions";
+import { openModal } from "features/tickets/ticketSlice";
 
 const TicketCard = ({ ticket }) => {
   return (
