@@ -52,7 +52,7 @@ function Chat() {
     dispatch(
       fetchChatMessages({
         sender: userInfo["_id"],
-        receiver: "6462814d65f3f9c47e7cb2a6",
+        receiver: "6462858c65f3f9c47e7cb2e1",
       })
     );
 
@@ -63,7 +63,7 @@ function Chat() {
       dispatch(
         fetchChatMessages({
           sender: userInfo["_id"],
-          receiver: "6462814d65f3f9c47e7cb2a6",
+          receiver: "6462858c65f3f9c47e7cb2e1",
         })
       );
       // If message is received, we are sending acknowledgment message

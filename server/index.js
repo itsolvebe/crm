@@ -10,6 +10,7 @@ const chatRoutes = require("./routes/chatRoutes.js");
 const socket = require("./socket");
 
 const { errorHandler, notFound } = require("./middleware/errorMiddleware.js");
+const multer = require("multer");
 // const __dirname = path.resolve();
 
 // Deployment configuration
@@ -30,7 +31,7 @@ const server = require("http").createServer(app);
 
 // Body parser
 app.use(express.json());
-
+app.use(express.static("public/uploads"));
 // CORS
 app.use(
   cors({

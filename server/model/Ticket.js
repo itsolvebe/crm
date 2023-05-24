@@ -31,11 +31,9 @@ const ticketSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  files: [
-    {
-      type: String,
-    },
-  ],
+  files: {
+    type: Object,
+  },
 });
 
 const Ticket = mongoose.model("Ticket", ticketSchema);

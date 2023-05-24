@@ -3,13 +3,14 @@ const Ticket = require("../model/Ticket.js");
 // Create Ticket
 const createTicket = async (req, res) => {
   try {
-    const { subject, description, deadline, service, budget, clientId, files } =
+    const { subject, description, deadline, service, budget, clientId } =
       req.body;
 
-    const filesar = files.map((file) => file.filename);
-    // const files = req.files;
+    // const filesar = files.map((file) => file.filename);
 
-    console.log(clientId, deadline, filesar);
+    const files = req.file.originalname;
+
+    console.log(clientId, deadline, files);
     const ticket = new Ticket({
       subject,
       description,
@@ -22,7 +23,7 @@ const createTicket = async (req, res) => {
 
     await ticket.save();
 
-    res.status(201).json(ticket);
+    res.status(201).json(files);
   } catch (error) {
     res.status(500).json({ error: "Failed to create ticket" });
     console.log(error);
@@ -51,6 +52,38 @@ const updateTicket = async (req, res) => {
   }
 };
 
+// Get All Ticket Details
+const getAllTickets = async (req, res) => {
+  try {
+    const tickets = await Ticket.find().populate("clientId");
+
+    if (!tickets) {
+      return res.status(404).json({ error: "Tickets not found" });
+    }
+
+    res.status(200).json(tickets);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get ticket details" });
+  }
+};
+
+// Get Specific User Ticket
+const getClientTickets = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const ticket = await Ticket.find({ clientId: id }).populate("clientId");
+
+    if (!ticket) {
+      return res.status(404).json({ error: "Tickets not found" });
+    }
+
+    res.status(200).json(ticket);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get ticket details" });
+  }
+};
+
 // Get Ticket Details
 const getTicketDetails = async (req, res) => {
   try {
@@ -72,4 +105,6 @@ module.exports = {
   createTicket,
   updateTicket,
   getTicketDetails,
+  getAllTickets,
+  getClientTickets,
 };
