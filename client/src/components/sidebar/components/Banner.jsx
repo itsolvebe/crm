@@ -20,12 +20,11 @@ const Banner = () => {
         </div>
       </div>
       {/* Name and position */}
-      <div className="mt-6 flex flex-col items-center">
+      <div className="mt-6 flex flex-col justify-center text-center items-center">
         <Link to={"/dashboard/profile"}>
-          {/* <h4 className="text-xl font-bold text-white">{`${userInfo.firstName} ${userInfo.lastName}`}</h4> */}
-          <h4 className="text-xl font-bold text-white">Hamza Sheikh</h4>
+          <h4 className="text-xl font-bold text-white">{`${userInfo.firstName} ${userInfo.lastName}`}</h4>
           <p className="text-base font-normal text-gray-600">
-            {userInfo.role === "User" ? "" : "Full-Stack Dev."}
+            {userInfo.role === "User" ? userInfo.company : "Full-Stack Dev."}
           </p>
         </Link>
       </div>
