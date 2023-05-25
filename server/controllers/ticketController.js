@@ -34,11 +34,11 @@ const createTicket = async (req, res) => {
 const updateTicket = async (req, res) => {
   try {
     const { id } = req.params;
-    const { assignedTo } = req.body;
+    const { memberId } = req.body;
 
     const ticket = await Ticket.findByIdAndUpdate(
       id,
-      { assignedTo },
+      { $push: { members: memberId } },
       { new: true }
     );
 
@@ -51,6 +51,7 @@ const updateTicket = async (req, res) => {
     res.status(500).json({ error: "Failed to update ticket" });
   }
 };
+
 
 // Get All Ticket Details
 const getAllTickets = async (req, res) => {
