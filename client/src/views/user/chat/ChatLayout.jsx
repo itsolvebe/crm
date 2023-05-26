@@ -6,6 +6,7 @@ import ChatFiles from "./ChatFiles";
 import Modal from "./components/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientTickets } from "features/tickets/ticketActions";
+import { Outlet } from "react-router-dom";
 
 function ChatLayout() {
   const isOpen = useSelector((state) => state.ticket.modalIsOpen);
@@ -22,10 +23,11 @@ function ChatLayout() {
         <Messages />
 
         {/* Second Column */}
-        <Chat />
+        {/* <Chat /> */}
+        <Outlet />
 
         {/* Third Columns  */}
-        <ChatFiles />
+        {/* <ChatFiles /> */}
       </div>
     </>
   );

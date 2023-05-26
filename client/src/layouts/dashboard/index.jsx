@@ -11,6 +11,7 @@ import bg from "assets/img/dashboards/bg.svg";
 import { useDisclosure } from "@chakra-ui/hooks";
 import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/modal";
 import CardHorizon from "components/card";
+import ChatLayout from "views/user/chat/Chat";
 
 export default function Admin(props) {
   const { ...rest } = props;
@@ -102,6 +103,8 @@ export default function Admin(props) {
               <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
                 <Routes>
                   {getRoutes(route)}
+
+        
 
                   <Route
                     path="/"

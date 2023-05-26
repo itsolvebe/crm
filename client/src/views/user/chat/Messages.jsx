@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getClientTickets } from "features/tickets/ticketActions";
 import { openModal } from "features/tickets/ticketSlice";
+import { Link } from "react-router-dom";
 
 const TicketCard = ({ ticket }) => {
   // Handle Ticket chat
@@ -11,6 +12,7 @@ const TicketCard = ({ ticket }) => {
     console.log("Tickets Data : ", ticket);
   };
   return (
+    <Link to={ticket._id}>
     <div
       className="flex gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]"
       onClick={handleTicketChats}
@@ -36,6 +38,7 @@ const TicketCard = ({ ticket }) => {
         <span className="text-xs font-semibold text-gray-500"></span>
       </div>
     </div>
+    </Link>
   );
 };
 
