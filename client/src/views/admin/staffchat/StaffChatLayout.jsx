@@ -1,14 +1,13 @@
 import React from "react";
 import Messages from "./Messages";
-import "./ChatLayout.css";
+import "./StaffChatLayout.css";
 import Chat from "./Chat";
 import ChatFiles from "./ChatFiles";
 import Modal from "./components/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientTickets } from "features/tickets/ticketActions";
-import { Outlet } from "react-router-dom";
 
-function ChatLayout() {
+function StaffChatLayout() {
   const isOpen = useSelector((state) => state.ticket.modalIsOpen);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -23,14 +22,13 @@ function ChatLayout() {
         <Messages />
 
         {/* Second Column */}
-        {/* <Chat /> */}
-        <Outlet />
+        <Chat />
 
         {/* Third Columns  */}
-        {/* <ChatFiles /> */}
+        <ChatFiles />
       </div>
     </>
   );
 }
 
-export default ChatLayout;
+export default StaffChatLayout;
