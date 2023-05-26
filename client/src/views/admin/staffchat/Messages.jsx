@@ -5,16 +5,8 @@ import { getClientTickets } from "features/tickets/ticketActions";
 import { openModal } from "features/tickets/ticketSlice";
 
 const TicketCard = ({ ticket }) => {
-  // Handle Ticket chat
-  const handleTicketChats = () => {
-    // alert("Clicked")
-    console.log("Tickets Data : ", ticket);
-  };
   return (
-    <div
-      className="flex gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]"
-      onClick={handleTicketChats}
-    >
+    <div className="flex gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]">
       <div>
         <img
           alt="person"
@@ -53,7 +45,6 @@ function Messages() {
   const handleOpen = () => {
     dispatch(openModal());
   };
-
   return (
     <div className=" flex w-full flex-col gap-4 border-r px-4 md:w-4/5 lg:w-1/5">
       <div className=" flex items-center justify-between gap-2 border-b border-gray-200  px-2 py-6">
@@ -78,7 +69,7 @@ function Messages() {
       </div>
       <div className="hideScrollBar mt-2 flex flex-col  gap-4  overflow-y-auto">
         {ticketInfo.map((ticket) => (
-          <TicketCard key={ticket._id} ticket={ticket} />
+          <TicketCard ticket={ticket} />
         ))}
       </div>
     </div>

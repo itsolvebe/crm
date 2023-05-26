@@ -20,6 +20,7 @@ import {
   MdLock,
 } from "react-icons/md";
 import ChatLayout from "views/admin/chat/ChatLayout";
+import StaffChatLayout from "views/admin/staffchat/StaffChatLayout";
 
 const adminroutes = [
   {
@@ -42,6 +43,13 @@ const adminroutes = [
     icon: <MdBarChart className="h-6 w-6" />,
     path: "chat",
     component: <ChatLayout />,
+  },
+  {
+    name: "Staff Chat",
+    layout: "/dashboard",
+    icon: <MdBarChart className="h-6 w-6" />,
+    path: "staffchat",
+    component: <StaffChatLayout />,
   },
   // {
   //   name: "NFT Marketplace",

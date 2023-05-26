@@ -12,21 +12,7 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
 
-const NoChat = () => {
-  return (
-    <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
-      {/* Message container  */}
-      <div className="flex h-full flex-col ">
-        {/* Messages */}
-        <div className="flex flex-1 flex-col items-center justify-center gap-4  p-2">
-          <span className="text-lg">No Messages to show</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const TicketChat = () => {
+function Chat() {
   // const [update, setUpdate] = useState(false);
   // const [room, setRoom] = useState("");
   // console.log("ROOM ID: ", room);
@@ -277,14 +263,6 @@ const TicketChat = () => {
       </div>
     </div>
   );
-};
-
-function Chat() {
-  const [ticketChatMsg, setTicketChatMsg] = useState("");
-  if (ticketChatMsg.length === 0) {
-    return <NoChat />;
-  }
-  return <TicketChat />;
 }
 
 export default Chat;
