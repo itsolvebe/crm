@@ -44,7 +44,6 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard/*" element={<DashboardLayout />} />
-          
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

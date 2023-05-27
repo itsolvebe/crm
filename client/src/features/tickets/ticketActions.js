@@ -27,11 +27,31 @@ export const createTicket = createAsyncThunk(
       formData.append("files", files[0]);
 
       // console.log("final data=>>>", formData);
-      await axios.post(`${backendURL}/api/tickets`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const responseFromTicket = await axios.post(
+        `${backendURL}/api/tickets`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("responseFromTicket : from api ", responseFromTicket);
+
+      const responseFromChat = await axios.post(
+        `${backendURL}/api/chat/message/create`,
+        {
+          ticketId: responseFromTicket.data._id,
+          clientId: clientId,
+          description: responseFromTicket.data.description,
+          isSocket: false,
+        }
+      );
+      console.log("responseFromChat : from api ", responseFromChat);
+
+      if (responseFromChat) {
+        return responseFromTicket.data;
+      }
 
       //   dispatch(closeModal());
     } catch (error) {
