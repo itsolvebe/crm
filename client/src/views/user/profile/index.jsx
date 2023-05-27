@@ -14,7 +14,7 @@ const ProfileOverview = () => {
         </div>
 
         <div className="z-0 col-span-8 lg:!mb-0">
-        <General />
+          <General />
         </div>
 
         {/* <div className="col-span-3 lg:!mb-0">

@@ -24,7 +24,7 @@ function ChatLayout() {
 
         {/* Second Column */}
         {/* <Chat /> */}
-        <Outlet />
+        {/* <Outlet /> */}
 
         {/* Third Columns  */}
         {/* <ChatFiles /> */}

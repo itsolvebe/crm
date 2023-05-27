@@ -11,22 +11,9 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { columnsDataComplex } from "../default/variables/columnsData";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
+import ChatFiles from "./ChatFiles";
 
-const NoChat = () => {
-  return (
-    <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
-      {/* Message container  */}
-      <div className="flex h-full flex-col ">
-        {/* Messages */}
-        <div className="flex flex-1 flex-col items-center justify-center gap-4  p-2">
-          <span className="text-lg">No Messages to show</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const TicketChat = () => {
+function Chat({ ticket }) {
   // const [update, setUpdate] = useState(false);
   // const [room, setRoom] = useState("");
   // console.log("ROOM ID: ", room);
@@ -59,6 +46,7 @@ const TicketChat = () => {
   // console.log("OpponentUserId: ", ...opponentUserId);
 
   useEffect(() => {
+    console.log("USEFFECTT");
     // Send info about user who joined room
     socket.emit("joinRoom", "123");
 
@@ -94,7 +82,7 @@ const TicketChat = () => {
           data.userWhichIsTyping,
         ],
       }));
-      console.log("Someone in the room is typing");
+      console.log("Someone in the room is typing bro");
     });
 
     // Listen for the userIsTyping event from the server
@@ -169,122 +157,116 @@ const TicketChat = () => {
   };
 
   return (
-    <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
-      <div className="sticky top-0  flex items-center justify-start gap-2 border-b border-gray-200 bg-white px-2 py-6">
-        <div>
-          <img
-            alt="person"
-            src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
-            width={38}
-            height={38}
-          />
-        </div>
-        <div>
+    <>
+      <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
+        <div className="sticky top-0  flex items-center justify-start gap-2 border-b border-gray-200 bg-white px-2 py-6">
           <div>
-            <span className="text-md font-semibold">Elmer Laverty</span>
-          </div>
-          <div className="flex items-center justify-start gap-2">
-            {/* If user is online then show Online icon otherwise no icon */}
             <img
-              alt="online"
-              src={require("../../../assets/status/online-ellipse.png")}
-              width={10}
-              height={10}
+              alt="person"
+              src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+              width={38}
+              height={38}
             />
-            <span className="text-xs">Online</span>
+          </div>
+          <div>
+            <div>
+              <span className="text-md font-semibold">{ticket._id}</span>
+            </div>
+            <div className="flex items-center justify-start gap-2">
+              {/* If user is online then show Online icon otherwise no icon */}
+              <img
+                alt="online"
+                src={require("../../../assets/status/online-ellipse.png")}
+                width={10}
+                height={10}
+              />
+              <span className="text-xs">Online</span>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Message container  */}
-      <div className="flex h-full flex-col overflow-y-auto ">
-        <Toaster />
-        {/* Messages */}
-        <div className="flex flex-1 flex-col justify-end gap-4  p-2">
-          {chatMessages?.map((element, index) => {
-            return (
-              <React.Fragment key={index}>
-                {element.sender === userInfo._id ? (
-                  // {/* Sender Message */}
-                  <div className="flex items-center justify-end gap-2">
-                    <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
-                      <span className="text-md">{element.content}</span>
-                      <span className="text-sm text-gray-100">
-                        {convertIntoFormattedTime(element.timestamp)}
-                      </span>
+        {/* Message container  */}
+        <div className="flex h-full flex-col overflow-y-auto ">
+          <Toaster />
+          {/* Messages */}
+          <div className="flex flex-1 flex-col justify-end gap-4  p-2">
+            {chatMessages?.map((element, index) => {
+              return (
+                <React.Fragment key={index}>
+                  {element.sender === userInfo._id ? (
+                    // {/* Sender Message */}
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
+                        <span className="text-md">{element.content}</span>
+                        <span className="text-sm text-gray-100">
+                          {convertIntoFormattedTime(element.timestamp)}
+                        </span>
+                      </div>
+                      <img
+                        src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+                        alt="Receiver"
+                        className="h-10 w-10 rounded-full"
+                      />
                     </div>
-                    <img
-                      src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
-                      alt="Receiver"
-                      className="h-10 w-10 rounded-full"
-                    />
-                  </div>
-                ) : (
-                  // {/* Receiver Message */}
-                  <div className="flex items-center justify-start">
-                    <img
-                      src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
-                      alt="Receiver"
-                      className="h-10 w-10 rounded-full"
-                    />
-                    <div className="ml-2 flex flex-col  items-start rounded-lg bg-gray-200 p-2">
-                      <span className="text-md">{element.content}</span>
-                      <span className="text-sm text-gray-600">
-                        {convertIntoFormattedTime(element.timestamp)}
-                      </span>
+                  ) : (
+                    // {/* Receiver Message */}
+                    <div className="flex items-center justify-start">
+                      <img
+                        src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+                        alt="Receiver"
+                        className="h-10 w-10 rounded-full"
+                      />
+                      <div className="ml-2 flex flex-col  items-start rounded-lg bg-gray-200 p-2">
+                        <span className="text-md">{element.content}</span>
+                        <span className="text-sm text-gray-600">
+                          {convertIntoFormattedTime(element.timestamp)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </React.Fragment>
-            );
-          })}
-          {/* Display three dots if opponent is typing */}
-          {userIsTyping.userWhichIsTyping.includes(...opponentUserId) && (
-            <ThreeDots
-              height={50}
-              width={50}
-              radius={10}
-              color="#BEBEBE"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              wrapperClassName=""
-              visible={true}
-            />
-          )}
-        </div>
+                  )}
+                </React.Fragment>
+              );
+            })}
+            {/* Display three dots if opponent is typing */}
+            {userIsTyping.userWhichIsTyping.includes(...opponentUserId) && (
+              <ThreeDots
+                height={50}
+                width={50}
+                radius={10}
+                color="#BEBEBE"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            )}
+          </div>
 
-        {/* Bottom Input container */}
-        <div className="flex items-center justify-around gap-2  px-4">
-          <label htmlFor="file_input">
-            <HiOutlinePaperClip className="hover:text-blue-500 " size={24} />
-            <input type="file" id="file_input" className="hidden" />
-          </label>
-          <div className="mx-3 my-2 flex w-full items-center justify-around rounded-lg border-2 bg-white p-2">
-            <input
-              type="text"
-              className="w-5/6 px-1 py-1 focus:outline-none"
-              placeholder="Write message"
-              {...register("senderMessage")}
-              onChange={handleUserTyping}
-              onKeyDown={handleOnKeyDown}
-            />
-            <RiSendPlaneFill
-              className="text-blue-700 hover:text-blue-400"
-              size={24}
-              onClick={handleSubmit(submitForm)}
-            />
+          {/* Bottom Input container */}
+          <div className="flex items-center justify-around gap-2  px-4">
+            <label htmlFor="file_input">
+              <HiOutlinePaperClip className="hover:text-blue-500 " size={24} />
+              <input type="file" id="file_input" className="hidden" />
+            </label>
+            <div className="mx-3 my-2 flex w-full items-center justify-around rounded-lg border-2 bg-white p-2">
+              <input
+                type="text"
+                className="w-5/6 px-1 py-1 focus:outline-none"
+                placeholder="Write message"
+                {...register("senderMessage")}
+                onChange={handleUserTyping}
+                onKeyDown={handleOnKeyDown}
+              />
+              <RiSendPlaneFill
+                className="text-blue-700 hover:text-blue-400"
+                size={24}
+                onClick={handleSubmit(submitForm)}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
-};
-
-function Chat() {
-  const [ticketChatMsg, setTicketChatMsg] = useState("");
-  if (ticketChatMsg.length === 0) {
-    return <NoChat />;
-  }
-  return <TicketChat />;
 }
 
 export default Chat;

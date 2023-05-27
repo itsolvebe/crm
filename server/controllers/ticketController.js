@@ -23,7 +23,7 @@ const createTicket = async (req, res) => {
 
     await ticket.save();
 
-    res.status(201).json(files);
+    res.status(201).json(ticket);
   } catch (error) {
     res.status(500).json({ error: "Failed to create ticket" });
     console.log(error);
@@ -51,7 +51,6 @@ const updateTicket = async (req, res) => {
     res.status(500).json({ error: "Failed to update ticket" });
   }
 };
-
 
 // Get All Ticket Details
 const getAllTickets = async (req, res) => {

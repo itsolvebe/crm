@@ -3,46 +3,63 @@ const Chat = require("../model/Chat");
 // Create a new chat message
 exports.createChatMessage = async (req, res) => {
   try {
-    const { sender, receiver, content, isSocket } = req.body;
-    console.log("Ds: ", { sender, receiver, content, isSocket });
-
-    const chat = await Chat.findOne({
-      participants: {
-        $all: [sender, receiver],
-      },
+    const {
+      sender,
+      ticketId,
+      clientId,
+      description,
+      receiver,
+      content,
+      isSocket,
+    } = req.body;
+    console.log("chatController: ", {
+      sender,
+      ticketId,
+      clientId,
+      description,
+      receiver,
+      content,
+      isSocket,
     });
 
+    const chat = await Chat.findOne({
+      ticket: ticketId,
+      // participants: {
+      //   $all: [sender, receiver],
+      // },
+    });
+
+    console.log("chat: ", chat);
+
     if (chat) {
-      chat.messages.push({
-        sender,
-        receiver,
-        content,
-      });
+      // chat.messages.push({
+      //   sender,
+      //   receiver,
+      //   content,
+      // });
+      return res.status(500).json({ error: "Can't create same ticket again" });
     } else {
       const newChat = new Chat({
-        participants: [sender, receiver],
+        participants: [clientId],
+        ticket: ticketId,
         messages: [
           {
-            sender,
-            receiver,
-            content,
+            sender: clientId,
+            // receiver,
+            content: description,
           },
         ],
       });
       chat = await newChat.save();
     }
+    console.log("CHAT: ", chat);
 
     if (isSocket) {
       return chat;
-    } else {
-      res.status(201).json(chat);
     }
+    return res.status(201).json(chat);
   } catch (error) {
-    if (isSocket) {
-      return error;
-    } else {
-      res.status(500).json({ error: "Failed to create chat message" });
-    }
+    return res.status(500).json({ error: "Failed to create chat message" });
   }
 };
 

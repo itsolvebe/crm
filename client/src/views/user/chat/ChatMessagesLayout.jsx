@@ -1,15 +1,14 @@
-import React from 'react'
-import ChatFiles from './ChatFiles'
-import Chat from './Chat'
+import React from "react";
+import ChatFiles from "./ChatFiles";
+import Chat from "./Chat";
 
-function ChatMessagesLayout() {
+function ChatMessagesLayout({ ticket }) {
   return (
     <>
-    <Chat />
-    <ChatFiles />
-    
+      <Chat ticket={ticket} />
+      <ChatFiles ticket={ticket} />
     </>
-  )
+  );
 }
 
-export default ChatMessagesLayout
+export default ChatMessagesLayout;
