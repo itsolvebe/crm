@@ -11,8 +11,14 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { columnsDataComplex } from "../default/variables/columnsData";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
+import { FiDownload } from "react-icons/fi";
+import PdfIcon from "../../../assets/files/pdf-icon.svg";
+import DocIcon from "../../../assets/files/doc-icon.svg";
+import GalleryIcon from "../../../assets/files/gallery-icon.svg";
+import CodeIcon from "../../../assets/files/code-icon.svg";
 
-function Chat() {
+function Chat({ticket}) {
+  console.log(ticket);
   // const [update, setUpdate] = useState(false);
   // const [room, setRoom] = useState("");
   // console.log("ROOM ID: ", room);
@@ -44,62 +50,64 @@ function Chat() {
   const opponentUserId = chatParticipants.filter((e) => e !== userInfo["_id"]);
   // console.log("OpponentUserId: ", ...opponentUserId);
 
-  useEffect(() => {
-    // Send info about user who joined room
-    socket.emit("joinRoom", "123");
+  // useEffect(() => {
+  //   // Send info about user who joined room
+  //   socket.emit("joinRoom", "123");
 
-    // Fetching and Adding data from DB to Redux Store
-    dispatch(
-      fetchChatMessages({
-        sender: userInfo["_id"],
-        receiver: "6462858c65f3f9c47e7cb2e1",
-      })
-    );
+  //   // Fetching and Adding data from DB to Redux Store
+  //   dispatch(
+  //     fetchChatMessages({
+  //       sender: userInfo["_id"],
+  //       receiver: "6462814d65f3f9c47e7cb2a6",
+  //     })
+  //   );
 
-    // Listening to the incoming message from recipient
-    socket.on("newMessage", (data) => {
-      console.log("Data receiving from server ..: ", data);
-      // Dispatching chat data to our chatSlice to maintain state
-      dispatch(
-        fetchChatMessages({
-          sender: userInfo["_id"],
-          receiver: "6462858c65f3f9c47e7cb2e1",
-        })
-      );
-      // If message is received, we are sending acknowledgment message
-      socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
-    });
+  //   // Listening to the incoming message from recipient
+  //   socket.on("newMessage", (data) => {
+  //     console.log("Data receiving from server ..: ", data);
+  //     // Dispatching chat data to our chatSlice to maintain state
+  //     dispatch(
+  //       fetchChatMessages({
+  //         sender: userInfo["_id"],
+  //         receiver: "6462814d65f3f9c47e7cb2a6",
+  //       })
+  //     );
+  //     // If message is received, we are sending acknowledgment message
+  //     socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
+  //   });
 
-    // Listen for the userIsTyping event from the server
-    socket.on("userIsTyping", (data) => {
-      // Add info about user who is typing in the state
-      setUserIsTyping((prevUserIsTyping) => ({
-        ...prevUserIsTyping,
-        userWhichIsTyping: [
-          ...prevUserIsTyping.userWhichIsTyping,
-          data.userWhichIsTyping,
-        ],
-      }));
-      console.log("Someone in the room is typing");
-    });
+  //   // Listen for the userIsTyping event from the server
+  //   socket.on("userIsTyping", (data) => {
+  //     // Add info about user who is typing in the state
+  //     setUserIsTyping((prevUserIsTyping) => ({
+  //       ...prevUserIsTyping,
+  //       userWhichIsTyping: [
+  //         ...prevUserIsTyping.userWhichIsTyping,
+  //         data.userWhichIsTyping,
+  //       ],
+  //     }));
+  //     console.log("Someone in the room is typing");
+  //   });
 
-    // Listen for the userIsTyping event from the server
-    socket.on("userIsNotTyping", (data) => {
-      // Add info about user who is typing in the state
-      setUserIsTyping((prevUserIsTyping) => ({
-        ...prevUserIsTyping,
-        userWhichIsTyping: prevUserIsTyping.userWhichIsTyping.filter(
-          (elem) => elem !== data.userWhichIsTyping
-        ),
-      }));
+  //   // Listen for the userIsTyping event from the server
+  //   socket.on("userIsNotTyping", (data) => {
+  //     // Add info about user who is typing in the state
+  //     setUserIsTyping((prevUserIsTyping) => ({
+  //       ...prevUserIsTyping,
+  //       userWhichIsTyping: prevUserIsTyping.userWhichIsTyping.filter(
+  //         (elem) => elem !== data.userWhichIsTyping
+  //       ),
+  //     }));
 
-      console.log("Someone in the room is typing");
-    });
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      socket.off("disconnect");
-    };
-  }, []);
+  //     console.log("Someone in the room is typing");
+  //   });
+  //   // Cleanup the event listener when the component unmounts
+  //   return () => {
+  //     socket.off("disconnect");
+  //   };
+  // }, []);
+
+socket.off("disconnect");
 
   const submitForm = (data) => {
     console.log("Input Ready: ", data);
@@ -155,6 +163,7 @@ function Chat() {
   };
 
   return (
+    <div className="flex">
     <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
       <div className="sticky top-0  flex items-center justify-start gap-2 border-b border-gray-200 bg-white px-2 py-6">
         <div>
@@ -167,7 +176,7 @@ function Chat() {
         </div>
         <div>
           <div>
-            <span className="text-md font-semibold">Elmer Laverty</span>
+            <span className="text-md font-semibold">{ticket._id}</span>
           </div>
           <div className="flex items-center justify-start gap-2">
             {/* If user is online then show Online icon otherwise no icon */}
@@ -262,6 +271,123 @@ function Chat() {
         </div>
       </div>
     </div>
+    <div className="hidden flex-col gap-4 px-4 md:flex md:w-2/5 lg:w-1/5">
+    <div className=" flex items-center justify-start gap-2 border-b border-gray-200 py-6">
+      <div className="flex items-center gap-3 ">
+        <span className="font-semibold">Files</span>
+        <span className="rounded-lg bg-[#EDF2F7] px-2 py-0.5 text-xs font-semibold ">
+          8
+        </span>
+      </div>
+    </div>
+
+    <div className="hideScrollBar mt-2 flex flex-col  gap-4  overflow-y-auto">
+      {/* Pdf Icon  */}
+      <div className="flex items-center gap-2 border-b p-1 pb-2  hover:bg-[#F6F6FE]">
+        <div className="flex items-center justify-center rounded-lg bg-red-50 p-2">
+          <img alt="Pdf Icon" src={PdfIcon} width={32} height={32} />
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-1">
+          <span className="text-sm font-semibold">myProjectFile.pdf</span>
+          <div className="flex gap-2">
+            {/* Messages */}
+            <span className="text-xs font-semibold text-gray-500">PDF </span>
+            <span className="text-xs font-semibold text-gray-500">
+              {" "}
+              5.2MB{" "}
+            </span>
+          </div>
+        </div>
+        <div className="">
+          <FiDownload
+            className="h-6 w-6 text-purple-600 hover:text-gray-800"
+            width={48}
+            height={48}
+          />
+          {/* <span className="text-xs font-semibold text-gray-500">12m</span> */}
+        </div>
+      </div>
+
+      {/* Doc Icon  */}
+      <div className="flex items-center gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]">
+        <div className="flex items-center justify-center rounded-lg bg-blue-50 p-2">
+          <img alt="Pdf Icon" src={DocIcon} width={32} height={32} />
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-1">
+          <span className="text-sm font-semibold">myProjectFile.doc</span>
+          <div className="flex gap-2">
+            {/* Messages */}
+            <span className="text-xs font-semibold text-gray-500">DOC </span>
+            <span className="text-xs font-semibold text-gray-500">
+              {" "}
+              7.3MB{" "}
+            </span>
+          </div>
+        </div>
+        <div className="">
+          <FiDownload
+            className="h-6 w-6 text-purple-600  hover:text-gray-800"
+            width={48}
+            height={48}
+          />
+          {/* <span className="text-xs font-semibold text-gray-500">12m</span> */}
+        </div>
+      </div>
+
+      {/* Gallery Icon  */}
+      <div className="flex items-center gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]">
+        <div className="flex items-center justify-center rounded-lg bg-green-50 p-2">
+          <img alt="Pdf Icon" src={GalleryIcon} width={32} height={32} />
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-1">
+          <span className="text-sm font-semibold">Screenshot1.png</span>
+          <div className="flex gap-2">
+            {/* Messages */}
+            <span className="text-xs font-semibold text-gray-500">PNG </span>
+            <span className="text-xs font-semibold text-gray-500">
+              {" "}
+              5.2MB{" "}
+            </span>
+          </div>
+        </div>
+        <div className="">
+          <FiDownload
+            className="h-6 w-6 text-purple-600  hover:text-gray-800"
+            width={48}
+            height={48}
+          />
+          {/* <span className="text-xs font-semibold text-gray-500">12m</span> */}
+        </div>
+      </div>
+
+      {/* Code Icon  */}
+      <div className="flex items-center gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]">
+        <div className="flex items-center justify-center rounded-lg bg-purple-50 p-2">
+          <img alt="Pdf Icon" src={CodeIcon} width={32} height={32} />
+        </div>
+        <div className="flex flex-1 flex-col justify-center gap-1">
+          <span className="text-sm font-semibold">index.js</span>
+          <div className="flex gap-2">
+            {/* Messages */}
+            <span className="text-xs font-semibold text-gray-500">JS </span>
+            <span className="text-xs font-semibold text-gray-500">
+              {" "}
+              1.3MB{" "}
+            </span>
+          </div>
+        </div>
+        <div className="">
+          <FiDownload
+            className="h-6 w-6 text-purple-600  hover:text-gray-800"
+            width={48}
+            height={48}
+          />
+          {/* <span className="text-xs font-semibold text-gray-500">12m</span> */}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
   );
 }
 

@@ -18,8 +18,10 @@ import { useDispatch } from "react-redux";
 import { useGetDetailsQuery } from "app/services/auth/authService";
 import { setCredentials } from "features/auth/authSlice";
 import ChatLayout from "views/user/chat/ChatLayout";
-import Chat from "views/user/chat/Chat";
+
 import ChatMessagesLayout from "views/user/chat/ChatMessagesLayout";
+import Chat from "views/admin/chat/Chat";
+import TicketChats from "views/admin/chat/TicketChats";
 const App = () => {
   // const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -42,9 +44,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route element={<ProtectedRoute />}>
           <Route path="dashboard/*" element={<DashboardLayout />} />
-          <Route path="dashboard/chats" element={<ChatLayout />}>
-            <Route path="*" element={<ChatMessagesLayout />} />
-          </Route>
+          
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

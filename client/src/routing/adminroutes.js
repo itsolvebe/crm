@@ -21,6 +21,7 @@ import {
 } from "react-icons/md";
 import ChatLayout from "views/admin/chat/ChatLayout";
 import StaffChatLayout from "views/admin/staffchat/StaffChatLayout";
+import TicketChats from "views/admin/chat/TicketChats";
 
 const adminroutes = [
   {
@@ -42,7 +43,7 @@ const adminroutes = [
     layout: "/dashboard",
     icon: <MdBarChart className="h-6 w-6" />,
     path: "chat",
-    component: <ChatLayout />,
+    component: <TicketChats />,
   },
   {
     name: "Staff Chat",
