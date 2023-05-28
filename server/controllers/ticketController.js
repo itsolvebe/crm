@@ -33,12 +33,12 @@ const createTicket = async (req, res) => {
 // Update Ticket
 const updateTicket = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { memberId } = req.body;
+    const { ticketId } = req.params;
 
+    console.log("__", req.body, ticketId);
     const ticket = await Ticket.findByIdAndUpdate(
-      id,
-      { $push: { members: memberId } },
+      ticketId,
+      { $push: { members: req.body } },
       { new: true }
     );
 
@@ -48,6 +48,7 @@ const updateTicket = async (req, res) => {
 
     res.json(ticket);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Failed to update ticket" });
   }
 };
@@ -55,7 +56,7 @@ const updateTicket = async (req, res) => {
 // Get All Ticket Details
 const getAllTickets = async (req, res) => {
   try {
-    const tickets = await Ticket.find().populate("clientId");
+    const tickets = await Ticket.find().populate("members");
 
     if (!tickets) {
       return res.status(404).json({ error: "Tickets not found" });
@@ -89,7 +90,7 @@ const getTicketDetails = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const ticket = await Ticket.findById(id).populate("assignedTo");
+    const ticket = await Ticket.findById(id).populate("members");
 
     if (!ticket) {
       return res.status(404).json({ error: "Ticket not found" });

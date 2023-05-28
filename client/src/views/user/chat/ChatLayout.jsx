@@ -12,9 +12,9 @@ function ChatLayout() {
   const isOpen = useSelector((state) => state.ticket.modalIsOpen);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  if (!isOpen) {
-    dispatch(getClientTickets(userInfo._id));
-  }
+  // if (!isOpen) {
+  //   dispatch(getClientTickets(userInfo._id));
+  // }
   return (
     <>
       {isOpen && <Modal />}

@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createTicket, getClientTickets } from "./ticketActions";
+import {
+  createTicket,
+  getClientTickets,
+  getAllTickets,
+  addMembers,
+} from "./ticketActions";
 
 const initialState = {
   loading: false,
   ticketInfo: [],
+  allTickets: [],
   error: null,
   success: false,
   modalIsOpen: false,
@@ -35,6 +41,19 @@ const ticketSlice = createSlice({
       state.error = payload;
     },
 
+    [getAllTickets.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [getAllTickets.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.allTickets = payload;
+    },
+    [getAllTickets.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
     [createTicket.pending]: (state) => {
       state.loading = true;
       state.error = null;
@@ -45,6 +64,19 @@ const ticketSlice = createSlice({
       state.modalIsOpen = false;
     },
     [createTicket.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [addMembers.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [addMembers.fulfilled]: (state) => {
+      state.loading = false;
+      state.success = true;
+      state.modalIsOpen = false;
+    },
+    [addMembers.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

@@ -36,9 +36,9 @@ function Messages() {
   const { userInfo } = useSelector((state) => state.auth);
   const { ticketInfo } = useSelector((state) => state.ticket);
 
-  useEffect(() => {
-    dispatch(getClientTickets(userInfo._id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getClientTickets(userInfo._id));
+  // }, []);
 
   console.log(ticketInfo);
 

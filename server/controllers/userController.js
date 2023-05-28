@@ -88,4 +88,16 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, getUserProfile };
+const getAllUsers = asyncHandler(async (req, res) => {
+  // req.user was set in authMiddleware.js
+  const users = await User.find();
+
+  if (users) {
+    res.json(users);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+module.exports = { registerUser, loginUser, getUserProfile, getAllUsers };

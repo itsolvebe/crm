@@ -28,7 +28,7 @@ router.post("/", upload.single("files"), createTicket);
 router.get("/", getAllTickets);
 
 // Update Ticket
-router.patch("/assign/:id", updateTicket);
+router.patch("/addmembers/:ticketId", updateTicket);
 
 // Get Ticket Details
 router.get("/:id", getTicketDetails);

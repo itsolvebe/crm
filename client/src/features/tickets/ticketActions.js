@@ -64,6 +64,27 @@ export const createTicket = createAsyncThunk(
   }
 );
 
+export const addMembers = createAsyncThunk(
+  "ticket/addmembers",
+  async (ticketData, { rejectWithValue }) => {
+    try {
+      console.log("final data=>>>", ticketData);
+      const { data } = await axios.patch(
+        `${backendURL}/api/tickets/addmembers/${ticketData.ticketId}`,
+        ticketData.membId
+      );
+
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
 export const getClientTickets = createAsyncThunk(
   "ticket/getclientticket",
   async (clientId, { rejectWithValue }) => {
@@ -81,6 +102,28 @@ export const getClientTickets = createAsyncThunk(
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const getAllTickets = createAsyncThunk(
+  "ticket/alltickets",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`${backendURL}/api/tickets`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        console.log(error);
+        return rejectWithValue(error.response.data.message);
+      } else {
+        console.log(error);
         return rejectWithValue(error.message);
       }
     }
