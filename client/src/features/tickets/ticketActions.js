@@ -43,7 +43,7 @@ export const createTicket = createAsyncThunk(
         {
           ticketId: responseFromTicket.data._id,
           clientId: clientId,
-          description: responseFromTicket.data.description,
+          ticketDetails: responseFromTicket.data,
           isSocket: false,
         }
       );
@@ -71,7 +71,7 @@ export const addMembers = createAsyncThunk(
       console.log("final data=>>>", ticketData);
       const { data } = await axios.patch(
         `${backendURL}/api/tickets/addmembers/${ticketData.ticketId}`,
-        ticketData.membId
+        { membId: ticketData.membId }
       );
 
       return data;

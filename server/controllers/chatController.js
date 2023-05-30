@@ -7,7 +7,7 @@ exports.createChatMessage = async (req, res) => {
       sender,
       ticketId,
       clientId,
-      description,
+      ticketDetails,
       receiver,
       content,
       isSocket,
@@ -16,7 +16,7 @@ exports.createChatMessage = async (req, res) => {
       sender,
       ticketId,
       clientId,
-      description,
+      ticketDetails,
       receiver,
       content,
       isSocket,
@@ -30,6 +30,8 @@ exports.createChatMessage = async (req, res) => {
     });
 
     console.log("chat: ", chat);
+
+    let updatedChat;
 
     if (chat) {
       // chat.messages.push({
@@ -46,18 +48,18 @@ exports.createChatMessage = async (req, res) => {
           {
             sender: clientId,
             // receiver,
-            content: description,
+            content: JSON.stringify(ticketDetails),
           },
         ],
       });
-      chat = await newChat.save();
+      updatedChat = await newChat.save();
     }
-    console.log("CHAT: ", chat);
+    console.log("CHAT: ", updatedChat);
 
     if (isSocket) {
       return chat;
     }
-    return res.status(201).json(chat);
+    return res.status(201).json(updatedChat);
   } catch (error) {
     return res.status(500).json({ error: "Failed to create chat message" });
   }
@@ -66,13 +68,17 @@ exports.createChatMessage = async (req, res) => {
 // Get all chat messages between two users
 exports.getChatMessages = async (req, res) => {
   try {
-    const { sender, receiver } = req.body;
+    const { sender, receiver, ticketId } = req.body;
+    console.log("sender: ", sender, " receiver: ", receiver);
 
+    // const chat = await Chat.findOne({
+    //   participants: {
+    //     $all: [sender, receiver],
+    //   },
+    // });
     const chat = await Chat.findOne({
-      participants: {
-        $all: [sender, receiver],
-      },
-    });
+      ticket: ticketId,
+    }).populate("ticket");
     // const chat = await Chat.findOne({
     //   participants: sender,
     // });
@@ -85,6 +91,30 @@ exports.getChatMessages = async (req, res) => {
     res.json(chat);
   } catch (error) {
     res.status(500).json({ error: "Failed to get chat messages" });
+  }
+};
+
+// Update participants in chat message
+exports.updateParticipant = async (req, res) => {
+  try {
+    const { ticketId } = req.params;
+    console.log("req.body og updateParticipant: ", req.body);
+
+    console.log("__", req.body, ticketId);
+    const chat = await Chat.findByIdAndUpdate(
+      ticketId,
+      { $addToSet: { participants: req.body.membId } },
+      { new: true }
+    );
+
+    if (!chat) {
+      return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    res.json(chat);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to update ticket" });
   }
 };
 

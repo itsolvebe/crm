@@ -30,6 +30,8 @@ function Chat({ ticket }) {
     },
   });
 
+  console.log("TICKET CHAT: from props : : ", ticket["_id"]);
+
   const dispatch = useDispatch();
   console.log("Someone is typing USESTATE:::  >> ", userIsTyping);
 
@@ -53,10 +55,15 @@ function Chat({ ticket }) {
     // Fetching and Adding data from DB to Redux Store
     dispatch(
       fetchChatMessages({
-        sender: userInfo["_id"],
-        receiver: "6462814d65f3f9c47e7cb2a6",
+        ticketId: ticket["_id"],
       })
     );
+    // dispatch(
+    //   fetchChatMessages({
+    //     ticketId: userInfo["_id"],
+    //     receiver: "6462814d65f3f9c47e7cb2a6",
+    //   })
+    // );
 
     // Listening to the incoming message from recipient
     socket.on("newMessage", (data) => {
@@ -64,10 +71,16 @@ function Chat({ ticket }) {
       // Dispatching chat data to our chatSlice to maintain state
       dispatch(
         fetchChatMessages({
-          sender: userInfo["_id"],
-          receiver: "6462814d65f3f9c47e7cb2a6",
+          ticketId: ticket["_id"],
         })
       );
+      // dispatch(
+      //   fetchChatMessages({
+      //     sender: userInfo["_id"],
+      //     receiver: "6462814d65f3f9c47e7cb2a6",
+      //   })
+      // );
+
       // If message is received, we are sending acknowledgment message
       socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
     });
@@ -101,7 +114,7 @@ function Chat({ ticket }) {
     return () => {
       socket.off("disconnect");
     };
-  }, []);
+  }, [ticket]);
 
   const submitForm = (data) => {
     console.log("Input Ready: ", data);
@@ -170,7 +183,9 @@ function Chat({ ticket }) {
           </div>
           <div>
             <div>
-              <span className="text-md font-semibold">{ticket._id}</span>
+              <span className="text-md font-semibold">
+                #{ticket._id.slice(0, 6)}
+              </span>
             </div>
             <div className="flex items-center justify-start gap-2">
               {/* If user is online then show Online icon otherwise no icon */}
