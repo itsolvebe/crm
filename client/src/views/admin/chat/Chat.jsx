@@ -21,14 +21,6 @@ import { BsPlusCircleFill } from "react-icons/bs";
 import UserCard from "./components/UserCard";
 
 function Chat({ ticket }) {
-  // console.log(ticket);
-  // const [update, setUpdate] = useState(false);
-  // const [room, setRoom] = useState("");
-  // console.log("ROOM ID: ", room);
-  // const [userIsTyping, setUserIsTyping] = useState({
-  //   userWhichIsTyping: "",
-  //   typing: false,
-  // });
   const [userIsTyping, setUserIsTyping] = useState({
     userWhichIsTyping: Array.from(new Set()),
   });
@@ -38,88 +30,100 @@ function Chat({ ticket }) {
     },
   });
 
+  console.log("TICKET CHAT: from props : : ", ticket["_id"]);
+
   const dispatch = useDispatch();
-  // console.log("Someone is typing USESTATE:::  >> ", userIsTyping);
+  console.log("Someone is typing USESTATE:::  >> ", userIsTyping);
 
   // Getting userInfo through useSelector
   const { userInfo } = useSelector((state) => state.auth);
-  // console.log("USE SELECTOR user: ", userInfo);
+  console.log("USE SELECTOR user: ", userInfo);
 
   // Getting data through useSelector to show on a UI
   const { chatParticipants, chatMessages } = useSelector((state) => state.chat);
-  // console.log("USE SELECTOR Chat <<>>>", chatMessages);
-  // console.log("USE SELECTOR Participants <<>>>", chatParticipants);
+  console.log("USE SELECTOR Chat <<>>>", chatMessages);
+  console.log("USE SELECTOR Participants <<>>>", chatParticipants);
 
   const opponentUserId = chatParticipants.filter((e) => e !== userInfo["_id"]);
   // console.log("OpponentUserId: ", ...opponentUserId);
 
-  // useEffect(() => {
-  //   // Send info about user who joined room
-  //   socket.emit("joinRoom", "123");
+  useEffect(() => {
+    console.log("USEFFECTT");
+    // Send info about user who joined room
+    socket.emit("joinRoom", "123");
 
-  //   // Fetching and Adding data from DB to Redux Store
-  //   dispatch(
-  //     fetchChatMessages({
-  //       sender: userInfo["_id"],
-  //       receiver: "6462814d65f3f9c47e7cb2a6",
-  //     })
-  //   );
+    // Fetching and Adding data from DB to Redux Store
+    dispatch(
+      fetchChatMessages({
+        ticketId: ticket["_id"],
+      })
+    );
+    // dispatch(
+    //   fetchChatMessages({
+    //     ticketId: userInfo["_id"],
+    //     receiver: "6462814d65f3f9c47e7cb2a6",
+    //   })
+    // );
 
-  //   // Listening to the incoming message from recipient
-  //   socket.on("newMessage", (data) => {
-  //     console.log("Data receiving from server ..: ", data);
-  //     // Dispatching chat data to our chatSlice to maintain state
-  //     dispatch(
-  //       fetchChatMessages({
-  //         sender: userInfo["_id"],
-  //         receiver: "6462814d65f3f9c47e7cb2a6",
-  //       })
-  //     );
-  //     // If message is received, we are sending acknowledgment message
-  //     socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
-  //   });
+    // Listening to the incoming message from recipient
+    socket.on("newMessage", (data) => {
+      console.log("Data receiving from server ..: ", data);
+      // Dispatching chat data to our chatSlice to maintain state
+      dispatch(
+        fetchChatMessages({
+          ticketId: ticket["_id"],
+        })
+      );
+      // dispatch(
+      //   fetchChatMessages({
+      //     sender: userInfo["_id"],
+      //     receiver: "6462814d65f3f9c47e7cb2a6",
+      //   })
+      // );
 
-  //   // Listen for the userIsTyping event from the server
-  //   socket.on("userIsTyping", (data) => {
-  //     // Add info about user who is typing in the state
-  //     setUserIsTyping((prevUserIsTyping) => ({
-  //       ...prevUserIsTyping,
-  //       userWhichIsTyping: [
-  //         ...prevUserIsTyping.userWhichIsTyping,
-  //         data.userWhichIsTyping,
-  //       ],
-  //     }));
-  //     console.log("Someone in the room is typing");
-  //   });
+      // If message is received, we are sending acknowledgment message
+      socket.emit("userAcknowledgeMsgReceived", { mydata: "acknowledged" });
+    });
 
-  //   // Listen for the userIsTyping event from the server
-  //   socket.on("userIsNotTyping", (data) => {
-  //     // Add info about user who is typing in the state
-  //     setUserIsTyping((prevUserIsTyping) => ({
-  //       ...prevUserIsTyping,
-  //       userWhichIsTyping: prevUserIsTyping.userWhichIsTyping.filter(
-  //         (elem) => elem !== data.userWhichIsTyping
-  //       ),
-  //     }));
+    // Listen for the userIsTyping event from the server
+    socket.on("userIsTyping", (data) => {
+      // Add info about user who is typing in the state
+      setUserIsTyping((prevUserIsTyping) => ({
+        ...prevUserIsTyping,
+        userWhichIsTyping: [
+          ...prevUserIsTyping.userWhichIsTyping,
+          data.userWhichIsTyping,
+        ],
+      }));
+      console.log("Someone in the room is typing bro");
+    });
 
-  //     console.log("Someone in the room is typing");
-  //   });
-  //   // Cleanup the event listener when the component unmounts
-  //   return () => {
-  //     socket.off("disconnect");
-  //   };
-  // }, []);
+    // Listen for the userIsTyping event from the server
+    socket.on("userIsNotTyping", (data) => {
+      // Add info about user who is typing in the state
+      setUserIsTyping((prevUserIsTyping) => ({
+        ...prevUserIsTyping,
+        userWhichIsTyping: prevUserIsTyping.userWhichIsTyping.filter(
+          (elem) => elem !== data.userWhichIsTyping
+        ),
+      }));
 
-  socket.off("disconnect");
+      console.log("Someone in the room is typing");
+    });
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      socket.off("disconnect");
+    };
+  }, [ticket]);
 
   const submitForm = (data) => {
     console.log("Input Ready: ", data);
     // If input is empty then it message cannot be sent
     if (data.senderMessage === "") {
-      // console.log("Sender message is empty");
+      console.log("Sender message is empty");
       return toast.error("Can't Sent Empty Input");
     }
-    // console.log("Data inside submitForm client", data);
+    console.log("Data inside submitForm client", data);
     // Send chat message
     socket.emit("sendMessage", {
       sender: userInfo._id,
@@ -142,9 +146,9 @@ function Chat({ ticket }) {
   };
 
   const handleUserTyping = (e) => {
-    // console.log("Input: ", e.target.value);
+    console.log("Input: ", e.target.value);
     if (e.target.value.length === 1) {
-      // console.log("user is typing client .. ", e.target.value);
+      console.log("user is typing client .. ", e.target.value);
       socket.emit("userTyping", {
         userWhichIsTyping: userInfo["_id"],
       });

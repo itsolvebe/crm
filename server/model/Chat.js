@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const chatSchema = new mongoose.Schema({
   participants: [
     {
-      // type: String,
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      unique: true,
       required: true,
     },
   ],
   ticket: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Ticket",
-    // unique: true,
+    unique: true,
     required: true,
   },
   messages: [

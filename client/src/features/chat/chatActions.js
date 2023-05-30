@@ -7,13 +7,12 @@ const backendURL = "http://localhost:4000";
 export const fetchChatMessages = createAsyncThunk(
   "chat/fetchChatMessages",
   async (payload, thunkAPI) => {
-    const { sender, receiver } = payload;
+    const { ticketId } = payload;
     console.log("sender: <", payload);
     try {
       // const response = await axios.get(`/api/chat/${sender}/${receiver}`);
       const response = await axios.post(`${backendURL}/api/chat/message/get`, {
-        sender,
-        receiver,
+        ticketId,
       });
       console.log("response : from api ", response);
       return response.data;
