@@ -88,3 +88,28 @@ export const getAllUsers = createAsyncThunk(
     }
   }
 );
+
+export const updateUser = createAsyncThunk(
+  "user/update",
+  async (updatedInfo, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      console.log("updtAction", updatedInfo);
+      await axios.patch(
+        `${backendURL}/api/user/update/${updatedInfo._id}`,
+        updatedInfo,
+        config
+      );
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

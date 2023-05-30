@@ -55,6 +55,18 @@ const userSchema = mongoose.Schema(
       enum: ["Admin", "User", "Ticket Manager", "Employee"],
       default: "User",
     },
+    designation: {
+      type: String,
+    },
+    company: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    nationality: {
+      type: String,
+    },
   },
   {
     timestamps: true,

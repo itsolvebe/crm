@@ -13,26 +13,19 @@ const Header = () => {
   const dispatch = useDispatch();
 
   // automatically authenticate user if token is found
-  const { data, isFetching } = useGetDetailsQuery("userDetails", {
-    pollingInterval: 900000, // 15mins
-  });
+  // const { data, isFetching } = useGetDetailsQuery("userDetails", {
+  //   pollingInterval: 900000, // 15mins
+  // });
 
-  useEffect(() => {
-    if (data) dispatch(setCredentials(data));
-  }, [data, dispatch]);
+  // useEffect(() => {
+  //   console.log("onload", data);
+  //   if (data) dispatch(setCredentials(data));
+  // }, [data, dispatch]);
 
   return (
     <header className="flex justify-between bg-navy-800 px-5 py-3 text-white">
       <div className="flex">
-        <span>
-          {isFetching
-            ? `Fetching your profile...`
-            : userInfo !== null
-            ? `Logged in as ${userInfo.email}`
-            : "You're not logged in"}
-          {/* {userInfo && `Logged in as ${userInfo.email}`}
-          {userInfo === null && "You're not logged in"} */}
-        </span>
+        <span>{`Logged in as ${userInfo.email}`}</span>
         <div className="flex">
           {userInfo ? (
             <button

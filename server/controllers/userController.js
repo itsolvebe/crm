@@ -52,6 +52,10 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       phoneNumber: user.phoneNumber,
+      designation: user.designation,
+      company: user.company,
+      address: user.address,
+      nationality: user.nationality,
       userToken: generateToken(user._id),
     });
     console.log({
@@ -61,6 +65,10 @@ const loginUser = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       phoneNumber: user.phoneNumber,
+      designation: user.designation,
+      company: user.company,
+      address: user.address,
+      nationality: user.nationality,
       userToken: generateToken(user._id),
     });
   } else {
@@ -81,6 +89,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
       email: user.email,
       role: user.role,
       phoneNumber: user.phoneNumber,
+      designation: user.designation,
+      company: user.company,
+      address: user.address,
+      nationality: user.nationality,
     });
   } else {
     res.status(404);
@@ -93,11 +105,76 @@ const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
 
   if (users) {
-    res.json(users);
+    res.json({
+      _id: users._id,
+      firstName: users.firstName,
+      lastName: users.lastName,
+      email: users.email,
+      role: users.role,
+      phoneNumber: users.phoneNumber,
+      designation: users.designation,
+      company: users.company,
+      address: users.address,
+      nationality: users.nationality,
+    });
   } else {
     res.status(404);
     throw new Error("User not found");
   }
 });
 
-module.exports = { registerUser, loginUser, getUserProfile, getAllUsers };
+const updateUser = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const {
+      firstName,
+      lastName,
+      email,
+      role,
+      phoneNumber,
+      designation,
+      company,
+      address,
+      nationality,
+    } = req.body;
+    console.log(address);
+    const user = await User.findByIdAndUpdate(userId, {
+      firstName,
+      lastName,
+      email,
+      role,
+      phoneNumber,
+      designation,
+      company,
+      address,
+      nationality,
+    });
+    console.log(user);
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        phoneNumber: user.phoneNumber,
+        designation: user.designation,
+        company: user.company,
+        address: user.address,
+        nationality: user.nationality,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  getAllUsers,
+  updateUser,
+};
