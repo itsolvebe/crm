@@ -65,7 +65,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const getAllUsers = createAsyncThunk(
-  "user/login",
+  "user/getallusers",
   async (_, { rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
