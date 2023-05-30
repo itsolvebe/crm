@@ -20,7 +20,7 @@ function TicketChats() {
   useEffect(() => {
     console.log("Useffect ticketchat");
     dispatch(getClientTickets(userInfo._id));
-  }, []);
+  }, [selectedTicket]);
 
   const handleOpen = () => {
     dispatch(openModal());
@@ -46,7 +46,7 @@ function TicketChats() {
             <div className="flex items-center gap-3">
               <span className="font-semibold">Tickets</span>
               <span className="rounded-lg bg-[#EDF2F7] px-2 py-0.5 text-xs font-semibold">
-                3
+                {ticketInfo.length}
               </span>
             </div>
             <div className="cursor-pointer" onClick={handleOpen}>

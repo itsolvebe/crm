@@ -1,4 +1,5 @@
 const UserCard = ({ member }) => {
+  console.log("member: ", member);
   return (
     <div className="flex gap-2 border-b p-1 pb-2 hover:bg-[#F6F6FE]">
       <div>

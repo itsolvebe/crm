@@ -38,7 +38,7 @@ const updateTicket = async (req, res) => {
     console.log("__", req.body, ticketId);
     const ticket = await Ticket.findByIdAndUpdate(
       ticketId,
-      { $push: { members: req.body } },
+      { $addToSet: { members: req.body.membId } },
       { new: true }
     );
 
