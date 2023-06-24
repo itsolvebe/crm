@@ -100,4 +100,68 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser, getUserProfile, getAllUsers };
+const updateUser = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const {
+      firstName,
+      lastName,
+      email,
+      role,
+      phoneNumber,
+      designation,
+      company,
+      address,
+      nationality,
+    } = req.body;
+    console.log({
+      firstName,
+      lastName,
+      email,
+      role,
+      phoneNumber,
+      designation,
+      company,
+      address,
+      nationality,
+    });
+    const user = await User.findByIdAndUpdate(userId, {
+      firstName,
+      lastName,
+      email,
+      role,
+      phoneNumber,
+      designation,
+      company,
+      address,
+      nationality,
+    });
+    console.log(user);
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        phoneNumber: user.phoneNumber,
+        designation: user.designation,
+        company: user.company,
+        address: user.address,
+        nationality: user.nationality,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  getAllUsers,
+  updateUser,
+};
