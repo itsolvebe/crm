@@ -3,7 +3,7 @@ import React, { useState,useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { MdDone, MdModeEditOutline } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-
+import { updateUser } from "features/auth/authActions";
 
 const General = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const General = () => {
   }, []);
 
   const updateInfo = () => {
-    
+    dispatch(updateUser(updatedInfo));
     setEdit(!edit);
   };
 

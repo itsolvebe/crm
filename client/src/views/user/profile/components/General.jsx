@@ -31,7 +31,7 @@ const General = () => {
   }, []);
 
   const updateInfo = () => {
-    
+    dispatch(updateUser(updatedInfo));
     setEdit(!edit);
   };
 
