@@ -22,6 +22,7 @@ import {
 import ChatLayout from "views/admin/chat/ChatLayout";
 import StaffChatLayout from "views/admin/staffchat/StaffChatLayout";
 import TicketChats from "views/admin/chat/TicketChats";
+import UsersManaged from "views/admin/usersmanaged";
 
 const adminroutes = [
   {
@@ -46,9 +47,16 @@ const adminroutes = [
     component: <TicketChats />,
   },
   {
-    name: "Staff Chat",
+    name: "Users Managed",
     layout: "/dashboard",
     icon: <MdBarChart className="h-6 w-6" />,
+    path: "usersmanaged",
+    component: <UsersManaged />,
+  },
+  {
+    name: "Staff Chat",
+    layout: "/dashboard",
+    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
     path: "staffchat",
     component: <StaffChatLayout />,
   },
