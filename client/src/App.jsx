@@ -32,6 +32,7 @@ const App = () => {
   });
 
   useEffect(() => {
+    console.log("onload", data);
     if (data) dispatch(setCredentials(data));
   }, [data, dispatch]);
   return (
