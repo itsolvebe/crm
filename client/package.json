@@ -20,7 +20,6 @@
     "axios": "^1.4.0",
     "cors": "^2.8.5",
     "framer-motion": "^7.10.2",
-    "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-apexcharts": "1.4.0",
     "react-calendar": "^3.9.0",
