@@ -20,12 +20,13 @@ function init(server) {
     });
 
     socket.on("sendMessage", async (data) => {
-      const { sender, receiver, content } = data;
+      const { ticketId, sender, receiver, content } = data;
       console.log("Data: ", data);
 
       // Create an save the chat message using the createChatMessage controller
       const chat = await createChatMessage({
         body: {
+          ticketId,
           sender,
           receiver,
           content,
