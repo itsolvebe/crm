@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import login from '../../assets/login-animate.gif'
 
 function Signin() {
   const { loading, userInfo, error } = useSelector((state) => state.auth);
@@ -99,20 +98,14 @@ function Signin() {
           </div>
         </form>
       </div>
-      <div  className="hidden h-full flex-col justify-center gap-8 rounded-l-2xl bg-[#0D1623] p-16 lg:flex lg:w-full">
+      <div className="hidden h-full flex-col justify-center gap-8 rounded-2xl bg-[#0D1623] p-16 lg:flex lg:w-full">
         <img
           src={require("../../assets/logos/logo_white.png")}
-          style={{ width: "30%", height: "30%" }}
+          style={{ width: "75%", height: "30%" }}
           alt="Logo"
         />
-        <img
-          src={require("../../assets/login-animate.gif")}
-          style={{ width: "60%", height: "" }}
-          alt="animation"
-          className="mx-auto"
-        />
 
-        <h1 className="text-3xl font-bold leading-relaxed text-white">
+        <h1 className="text-5xl font-bold leading-relaxed text-white">
           <span className="text-transparent bg-gradient-to-r from-[#01A0C4] to-[#25C3E6] bg-clip-text">
             Say goodbye{" "}
           </span>
@@ -127,10 +120,3 @@ function Signin() {
 }
 
 export default Signin;
-// style={{
-//   backgroundImage: `url(${login})`,
-//   backgroundRepeat: "no-repeat",
-//   backgroundSize: "cover",
-//   width: "100%",
-//   height: "100vh",
-// }}

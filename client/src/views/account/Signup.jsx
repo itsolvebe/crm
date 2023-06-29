@@ -48,19 +48,13 @@ function Signup() {
   return (
     <div className="flex h-screen w-screen p-4">
       <Toaster />
-      <div className="hidden h-full flex-col justify-center gap-8 rounded-r-2xl bg-[#0D1623] p-16 xl:flex xl:w-full ">
+      <div className="hidden h-full flex-col justify-center gap-8 rounded-2xl bg-[#0D1623] p-16 xl:flex xl:w-full ">
         <img
           src={require("../../assets/logos/logo_white.png")}
-          style={{ width: "30%", height: "30%" }}
+          style={{ width: "75%", height: "30%" }}
           alt="Logo"
         />
-        <img
-          src={require("../../assets/signup.gif")}
-          style={{ width: "60%", height: "" }}
-          alt="Logo"
-          className="mx-auto"
-        />
-        <h1 className="text-3xl font-bold leading-relaxed text-white">
+        <h1 className="text-5xl font-bold leading-relaxed text-white">
           <span className="text-transparent bg-gradient-to-r from-[#01A0C4] to-[#25C3E6] bg-clip-text">
             No more waiting
           </span>
