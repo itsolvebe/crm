@@ -104,22 +104,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
   // req.user was set in authMiddleware.js
   const users = await User.find();
 
-  if (users) {
-    res.json({
-      _id: users._id,
-      firstName: users.firstName,
-      lastName: users.lastName,
-      email: users.email,
-      role: users.role,
-      phoneNumber: users.phoneNumber,
-      designation: users.designation,
-      company: users.company,
-      address: users.address,
-      nationality: users.nationality,
-    });
+  if (users.length) {
+    res.json(users);
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("No users found");
   }
 });
 

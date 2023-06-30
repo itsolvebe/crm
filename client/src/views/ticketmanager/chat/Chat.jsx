@@ -187,7 +187,7 @@ function Chat({ ticket }) {
           </div>
           <div>
             <div>
-              <span className="text-md font-semibold">#{ticket._id.slice(0, 6)}</span>
+              <span className="text-md font-semibold">{ticket._id}</span>
             </div>
             <div className="flex items-center justify-start gap-2">
               {/* If user is online then show Online icon otherwise no icon */}

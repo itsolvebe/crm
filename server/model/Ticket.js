@@ -22,6 +22,11 @@ const ticketSchema = new mongoose.Schema({
     enum: ["App Development", "Graphic Designing", "Seo"], // Add any other services as needed
     required: true,
   },
+  status: {
+    type: [String],
+    enum: ["Open", "In Progress", "Closed"],
+    default: "Open",
+  },
   clientId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -33,7 +38,6 @@ const ticketSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-
   files: {
     type: Object,
   },

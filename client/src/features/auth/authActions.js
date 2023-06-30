@@ -76,7 +76,7 @@ export const getAllUsers = createAsyncThunk(
       };
 
       const { data } = await axios.get(`${backendURL}/api/user`, config);
-
+      console.log("++++++++++++++++++++++++++++++", data);
       return data;
     } catch (error) {
       // return custom error message from API if any

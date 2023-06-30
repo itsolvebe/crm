@@ -15,12 +15,8 @@ import DailyTraffic from "views/admin/default/components/DailyTraffic";
 import TaskCard from "views/admin/default/components/TaskCard";
 import tableDataCheck from "./variables/tableDataCheck.json";
 import tableDataComplex from "./variables/tableDataComplex.json";
-import { useSelector } from "react-redux";
-import { HiUsers } from "react-icons/hi";
 
 const Dashboard = () => {
-  const { allTickets } = useSelector((state) => state.ticket);
-  const { allUsers } = useSelector((state) => state.auth);
   return (
     <div>
       {/* Card widget */}
@@ -28,35 +24,34 @@ const Dashboard = () => {
       <div className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-6">
         <Widget
           icon={<MdBarChart className="h-7 w-7" />}
-          title={"Total Earnings"}
-          subtitle={"$0"}
+          title={"Earnings"}
+          subtitle={"$340.5"}
         />
-        {/* <Widget
+        <Widget
           icon={<IoDocuments className="h-6 w-6" />}
           title={"Spend this month"}
           subtitle={"$642.39"}
-        /> */}
-        {/* <Widget
+        />
+        <Widget
           icon={<MdBarChart className="h-7 w-7" />}
           title={"Sales"}
           subtitle={"$574.34"}
-        /> */}
-        {/* <Widget
+        />
+        <Widget
           icon={<MdDashboard className="h-6 w-6" />}
           title={"Your Balance"}
           subtitle={"$1,000"}
-        /> */}
+        />
+        <Widget
+          icon={<MdBarChart className="h-7 w-7" />}
+          title={"New Tasks"}
+          subtitle={"145"}
+        />
         <Widget
           icon={<IoMdHome className="h-6 w-6" />}
-          title={"Total Tickets"}
-          subtitle={allTickets.length}
+          title={"Total Projects"}
+          subtitle={"$2433"}
         />
-        <Widget
-          icon={<HiUsers className="h-7 w-7" />}
-          title={"Registered Users"}
-          subtitle={allUsers.length}
-        />
-        
       </div>
 
       {/* Charts */}

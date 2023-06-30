@@ -6,6 +6,7 @@ import Footer from "components/footer/Footer";
 // import routes from "routes.js";
 import adminroute from "routing/adminroutes";
 import userroute from "routing/userroutes";
+import tmroutes from "routing/tmroutes";
 import { useDispatch, useSelector } from "react-redux";
 import bg from "assets/img/dashboards/bg.svg";
 import { useDisclosure } from "@chakra-ui/hooks";
@@ -22,12 +23,20 @@ export default function Admin(props) {
 
   const [route, setRoute] = useState([]);
   useEffect(() => {
-    if (userInfo.role === "Admin") {
-      setRoute(adminroute);
-    } else if (userInfo.role === "User") {
-      setRoute(userroute);
+    switch (userInfo.role) {
+      case "Admin":
+        setRoute(adminroute);
+        break;
+      case "User":
+        setRoute(userroute);
+        break;
+      case "Ticket Manager":
+        setRoute(tmroutes);
+        break;
+      default:
+        setRoute(userroute);
+        break;
     }
-    console.log(">>>>>>>", route);
   }, []);
 
   useEffect(() => {
@@ -37,7 +46,7 @@ export default function Admin(props) {
   }, []);
   useEffect(() => {
     getActiveRoute(route);
-  }, [location.pathname]);
+  }, [location.pathname, route]);
 
   const getActiveRoute = (routes) => {
     let activeRoute = "Dashboard";
@@ -103,8 +112,6 @@ export default function Admin(props) {
               <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
                 <Routes>
                   {getRoutes(route)}
-
-        
 
                   <Route
                     path="/"
