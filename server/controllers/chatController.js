@@ -22,6 +22,8 @@ exports.createChatMessage = async (req, res) => {
       isSocket,
     });
 
+    console.log("TICKET ID: ", ticketId);
+
     const chat = await Chat.findOne({
       ticket: ticketId,
       // participants: {
@@ -29,17 +31,19 @@ exports.createChatMessage = async (req, res) => {
       // },
     });
 
-    console.log("chat: ", chat);
+    console.log("chat: server ", chat);
 
     let updatedChat;
 
     if (chat) {
-      // chat.messages.push({
-      //   sender,
-      //   receiver,
-      //   content,
-      // });
-      return res.status(500).json({ error: "Can't create same ticket again" });
+      chat.messages.push({
+        sender,
+        receiver,
+        content,
+      });
+      // return res.status(500).json({ error: "Can't create same ticket again" });
+      console.log("updated chat:  ", chat);
+      return chat;
     } else {
       const newChat = new Chat({
         participants: [clientId],
