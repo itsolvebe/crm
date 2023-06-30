@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import { RiSendPlaneFill } from "react-icons/ri";
-import socket from "../../../Socket";
+import socket from "../../../../Socket";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,13 +12,13 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
 import { FiDownload } from "react-icons/fi";
-import PdfIcon from "../../../assets/files/pdf-icon.svg";
-import DocIcon from "../../../assets/files/doc-icon.svg";
-import GalleryIcon from "../../../assets/files/gallery-icon.svg";
-import CodeIcon from "../../../assets/files/code-icon.svg";
+import PdfIcon from "assets/files/pdf-icon.svg";
+import DocIcon from "assets/files/doc-icon.svg";
+import GalleryIcon from "assets/files/gallery-icon.svg";
+import CodeIcon from "assets/files/code-icon.svg";
 import { openModal } from "features/tickets/ticketSlice";
 import { BsPlusCircleFill } from "react-icons/bs";
-import UserCard from "./components/UserCard";
+import UserCard from "./UserCard";
 
 function Chat({ ticket }) {
   const [userIsTyping, setUserIsTyping] = useState({
@@ -193,7 +193,7 @@ function Chat({ ticket }) {
               {/* If user is online then show Online icon otherwise no icon */}
               <img
                 alt="online"
-                src={require("../../../assets/status/online-ellipse.png")}
+                src={require("assets/status/online-ellipse.png")}
                 width={10}
                 height={10}
               />

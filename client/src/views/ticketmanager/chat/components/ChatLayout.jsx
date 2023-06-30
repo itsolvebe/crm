@@ -3,7 +3,7 @@ import Messages from "./Messages";
 import "./ChatLayout.css";
 import Chat from "./Chat";
 import ChatFiles from "./ChatFiles";
-import Modal from "./components/Modal";
+import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientTickets } from "features/tickets/ticketActions";
 

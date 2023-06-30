@@ -4,7 +4,7 @@ import { getClientTickets } from "features/tickets/ticketActions";
 import { openModal } from "features/tickets/ticketSlice";
 import { BsPlusCircleFill } from "react-icons/bs";
 import Modal from "./components/Modal";
-import Chat from "./Chat";
+import Chat from "./components/Chat";
 import TicketCard from "./components/TicketCard";
 import { getAllTickets } from "features/tickets/ticketActions";
 import AddMembers from "./components/AddMembers";

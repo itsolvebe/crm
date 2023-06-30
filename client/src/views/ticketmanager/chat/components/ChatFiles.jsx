@@ -1,8 +1,8 @@
 import { FiDownload } from "react-icons/fi";
-import PdfIcon from "../../../assets/files/pdf-icon.svg";
-import DocIcon from "../../../assets/files/doc-icon.svg";
-import GalleryIcon from "../../../assets/files/gallery-icon.svg";
-import CodeIcon from "../../../assets/files/code-icon.svg";
+import PdfIcon from "../../../../assets/files/pdf-icon.svg";
+import DocIcon from "../../../../assets/files/doc-icon.svg";
+import GalleryIcon from "../../../../assets/files/gallery-icon.svg";
+import CodeIcon from "../../../../assets/files/code-icon.svg";
 
 function ChatFiles() {
   return (

@@ -8,7 +8,7 @@ import Ticket from "views/ticketmanager/ticket";
 // Icon Imports
 import { MdHome, MdBarChart, MdPerson } from "react-icons/md";
 import Announcement from "views/ticketmanager/announcement";
-import TicketChats from "views/ticketmanager/chat/TicketChats";
+import TicketChats from "views/ticketmanager/chat";
 
 const adminroutes = [
   {
