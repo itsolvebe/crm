@@ -6,6 +6,7 @@ import Footer from "components/footer/Footer";
 // import routes from "routes.js";
 import adminroute from "routing/adminroutes";
 import userroute from "routing/userroutes";
+import emplyeeroute from "routing/employeeroutes";
 import tmroutes from "routing/tmroutes";
 import { useDispatch, useSelector } from "react-redux";
 import bg from "assets/img/dashboards/bg.svg";
@@ -33,8 +34,11 @@ export default function Admin(props) {
       case "Ticket Manager":
         setRoute(tmroutes);
         break;
+      case "Employee":
+        setRoute(emplyeeroute);
+        break;
       default:
-        setRoute(userroute);
+        setRoute(emplyeeroute);
         break;
     }
   }, []);
