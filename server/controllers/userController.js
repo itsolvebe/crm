@@ -56,6 +56,7 @@ const loginUser = asyncHandler(async (req, res) => {
       company: user.company,
       address: user.address,
       nationality: user.nationality,
+      picture: user.picture,
       userToken: generateToken(user._id),
     });
     console.log({
@@ -93,6 +94,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       company: user.company,
       address: user.address,
       nationality: user.nationality,
+      picture: user.picture,
     });
   } else {
     res.status(404);
@@ -125,20 +127,29 @@ const updateUser = asyncHandler(async (req, res) => {
       company,
       address,
       nationality,
-    } = req.body;
-    console.log(address);
-    const user = await User.findByIdAndUpdate(userId, {
-      firstName,
-      lastName,
-      email,
-      role,
-      phoneNumber,
-      designation,
-      company,
-      address,
-      nationality,
-    });
-    console.log(user);
+    } = req?.body;
+
+    const picture = req?.file?.originalname;
+    let user;
+    if (picture) {
+      user = await User.findByIdAndUpdate(userId, {
+        picture,
+      });
+    } else {
+      user = await User.findByIdAndUpdate(userId, {
+        firstName,
+        lastName,
+        email,
+        role,
+        phoneNumber,
+        designation,
+        company,
+        address,
+        nationality,
+      });
+    }
+
+    console.log("UPDATEEEEEEEEEEEEEEEEEE", user);
     if (user) {
       res.status(201).json({
         _id: user._id,
@@ -151,6 +162,7 @@ const updateUser = asyncHandler(async (req, res) => {
         company: user.company,
         address: user.address,
         nationality: user.nationality,
+        picture: user.picture,
       });
     }
   } catch (error) {

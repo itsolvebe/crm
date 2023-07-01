@@ -93,16 +93,33 @@ export const updateUser = createAsyncThunk(
   "user/update",
   async (updatedInfo, { rejectWithValue }) => {
     try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      console.log("updtAction", updatedInfo);
+      const {
+        email,
+        phoneNumber,
+        designation,
+        company,
+        address,
+        nationality,
+        avatar,
+      } = updatedInfo;
+      const updatedData = new FormData();
+      updatedData.append("email", email);
+      updatedData.append("phoneNumber", phoneNumber);
+      updatedData.append("designation", designation);
+      updatedData.append("company", company);
+      updatedData.append("address", address);
+      updatedData.append("nationality", nationality);
+      updatedData.append("picture", avatar);
+
+      console.log("updtAction", avatar);
       await axios.patch(
         `${backendURL}/api/user/update/${updatedInfo._id}`,
-        updatedInfo,
-        config
+        updatedData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
     } catch (error) {
       if (error.response && error.response.data.message) {
