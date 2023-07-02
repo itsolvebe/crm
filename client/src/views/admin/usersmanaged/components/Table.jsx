@@ -56,15 +56,15 @@ const Table = ({tableHeaders, tableData }) => {
                                     <p className="text-sm font-bold text-navy-700 dark:text-white pt-[14px] pb-[20px] sm:text-[14px]">{user.firstName}</p>
                                 </td>
                                 <td>
-                                <select className="text-xs font-bold text-navy-700 dark:text-white sm:text-[14px]" onChange={(e)=>handleCheck(e,index)}>
-                                    <option>Admin</option>
-                                    <option>User</option>
-                                    <option>Ticket manager</option>
-                                    <option>Employee</option>
+                                <select className="text-xs font-bold text-navy-700 dark:text-navy-700 sm:text-[14px]" onChange={(e)=>handleCheck(e,index)} value={user.role}>
+                                    <option value='Admin'>Admin</option>
+                                    <option value='User'>User</option>
+                                    <option value='Ticket manager'>Ticket manager</option>
+                                    <option value='Employee'>Employee</option>
                                 </select>
                                 </td>
                                 <td>
-                                    <button className='text-xs text-white bg-red-400 hover:bg-red-500 rounded-md px-2 py-1' onClick={()=>showModal(index)}>
+                                    <button className='text-xs text-white bg-red-400 hover:bg-red-500 rounded-md px-2 py-1 ml-3' onClick={()=>showModal(index)}>
                                         delete
                                     </button>
                                 </td>

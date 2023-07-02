@@ -6,9 +6,14 @@ import { useDispatch,useSelector } from 'react-redux';
 
 const UsersManaged = () => {
   const dispatch = useDispatch()
-  const [users,setUsers] = useState([{firstName:'mustafa', active:true},{firstName:'shimul', active:false},{firstName:'rayaan', active:true},{firstName:'hamza', active:false}])
+  const [users,setUsers] = useState([ {firstName:'mustafa', role:"Admin"},
+                                      {firstName:'shimul', role:"User"},
+                                      {firstName:'rayaan', role:"Ticket manager"},
+                                      {firstName:'hamza', role:'Admin'}
+                                    ])
+
     useEffect(()=>{
-         
+         setUsers(getAllUsers)
     },[])
 
     

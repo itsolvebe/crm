@@ -10,7 +10,7 @@ const Modal = ({hideModal, handleDelete}) => {
             <header>
                 <div className="text-xl font-bold text-navy-700 dark:text-white">Delete Confirmation</div>
             </header>
-            <div className='p-2 py-2 bg-red-100'>
+            <div className='p-2 py-2 bg-red-100 text-sm'>
                 <p >Are you sure You want to delete?</p>
             </div>
             <div className='flex justify-end gap-3'>
