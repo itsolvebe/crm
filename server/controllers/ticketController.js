@@ -8,7 +8,7 @@ const createTicket = async (req, res) => {
 
     // const filesar = files.map((file) => file.filename);
 
-    const files = req.file.originalname;
+    const files = req?.file?.originalname;
 
     console.log(clientId, deadline, files);
     const ticket = new Ticket({
@@ -38,7 +38,10 @@ const updateTicket = async (req, res) => {
     console.log("__", req.body, ticketId);
     const ticket = await Ticket.findByIdAndUpdate(
       ticketId,
-      { $addToSet: { members: req.body.membId } },
+      {
+        $addToSet: { members: req.body.membId },
+        $set: { status: "In Progress" },
+      },
       { new: true }
     );
 

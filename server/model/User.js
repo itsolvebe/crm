@@ -67,6 +67,9 @@ const userSchema = mongoose.Schema(
     nationality: {
       type: String,
     },
+    picture: {
+      type: Object,
+    },
   },
   {
     timestamps: true,

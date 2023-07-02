@@ -1,3 +1,3 @@
 export const tableHeaders = [
-    "NAME","ROLE",""
+    "USER","COMPANY","ROLE",""
   ];

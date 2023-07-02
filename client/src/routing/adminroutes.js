@@ -19,10 +19,9 @@ import {
   MdPerson,
   MdLock,
 } from "react-icons/md";
-import ChatLayout from "views/admin/chat/ChatLayout";
-import StaffChatLayout from "views/admin/staffchat/StaffChatLayout";
 import TicketChats from "views/admin/chat/TicketChats";
 import UsersManaged from "views/admin/usersmanaged";
+import Announcement from "views/ticketmanager/announcement";
 
 const adminroutes = [
   {
@@ -54,11 +53,11 @@ const adminroutes = [
     component: <UsersManaged />,
   },
   {
-    name: "Staff Chat",
+    name: "Announcement",
     layout: "/dashboard",
     icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    path: "staffchat",
-    component: <StaffChatLayout />,
+    path: "announcement",
+    component: <Announcement />,
   },
   // {
   //   name: "NFT Marketplace",

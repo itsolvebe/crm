@@ -8,6 +8,7 @@ import Chat from "./Chat";
 import TicketCard from "./components/TicketCard";
 import { getAllTickets } from "features/tickets/ticketActions";
 import AddMembers from "./components/AddMembers";
+import { getAllUsers } from "features/auth/authActions";
 
 function TicketChats() {
   const isOpen = useSelector((state) => state.ticket.modalIsOpen);
@@ -20,6 +21,7 @@ function TicketChats() {
 
   useEffect(() => {
     dispatch(getAllTickets());
+    dispatch(getAllUsers());
   }, []);
 
   const handleOpen = () => {
