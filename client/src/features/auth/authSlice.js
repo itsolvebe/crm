@@ -4,6 +4,8 @@ import {
   userLogin,
   getAllUsers,
   updateUser,
+  updateUserRole,
+  userDelete,
 } from "./authActions";
 
 // initialize userToken from local storage
@@ -84,6 +86,28 @@ const authSlice = createSlice({
       state.loading = false;
     },
     [updateUser.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [updateUserRole.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [updateUserRole.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [updateUserRole.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [userDelete.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [userDelete.fulfilled]: (state) => {
+      state.loading = false;
+    },
+    [userDelete.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

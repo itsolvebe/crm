@@ -39,7 +39,7 @@ const Sidebar = ({ currroutes, open, onClose }) => {
         </div>
       </div>
 
-      <div class="mt-[210px] mb-5 h-px border-b border-navy-700 bg-white/30" />
+      <div class="mt-[70px] mb-5 h-px border-b border-navy-700 bg-white/30" />
 
       {/* Nav item */}
 

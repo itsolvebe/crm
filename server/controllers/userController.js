@@ -172,10 +172,52 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+const roleUpdate = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req?.body;
+
+    const user = await User.findByIdAndUpdate(userId, {
+      role,
+    });
+
+    console.log("UPDATEEEEEEEEEEEEEEEEEE", user);
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        role: user.role,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findByIdAndDelete(userId);
+
+    console.log("UPDATEEEEEEEEEEEEEEEEEE", user);
+    if (user) {
+      res.status(201).json(user);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getUserProfile,
   getAllUsers,
   updateUser,
+  roleUpdate,
+  deleteUser,
 };

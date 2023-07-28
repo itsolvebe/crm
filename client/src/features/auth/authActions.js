@@ -100,6 +100,7 @@ export const updateUser = createAsyncThunk(
         company,
         address,
         nationality,
+        role,
         avatar,
       } = updatedInfo;
       const updatedData = new FormData();
@@ -109,8 +110,9 @@ export const updateUser = createAsyncThunk(
       updatedData.append("company", company);
       updatedData.append("address", address);
       updatedData.append("nationality", nationality);
+      updatedData.append("role", role);
       updatedData.append("picture", avatar);
-
+      console.log("ACTION", updatedInfo);
       console.log("updtAction", avatar);
       await axios.patch(
         `${backendURL}/api/user/update/${updatedInfo._id}`,
@@ -122,6 +124,58 @@ export const updateUser = createAsyncThunk(
         }
       );
     } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const updateUserRole = createAsyncThunk(
+  "user/roleupdate",
+  async (updatedInfo, { rejectWithValue }) => {
+    try {
+      const { _id, role } = updatedInfo;
+      const updatedData = new FormData();
+      updatedData.append("role", role);
+      console.log("ACTION", updatedInfo);
+
+      await axios.patch(`${backendURL}/api/user/update/${_id}`, updatedData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const userDelete = createAsyncThunk(
+  "user/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      // configure header's Content-Type as JSON
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        `${backendURL}/api/user/delete/${id}`,
+        config
+      );
+
+      return data;
+    } catch (error) {
+      // return custom error message from API if any
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {

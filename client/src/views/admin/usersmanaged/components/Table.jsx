@@ -1,19 +1,32 @@
 import React, { useState } from "react";
 import Card from "components/card";
 import Modal from "./Modal";
-import avatar from "assets/img/avatars/avatarSimmmple.png";
+import defaultAvatar from "assets/img/profile/default-profile.jpg";
+import { updateUser } from "features/auth/authActions";
+import { useDispatch } from "react-redux";
+import { updateUserRole } from "features/auth/authActions";
+import { userDelete } from "features/auth/authActions";
 
 const Table = ({ tableHeaders, tableData }) => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const [userId, setUserId] = useState("");
 
-  const handleCheck = (e, index) => {
+  const handleCheck = (e, user) => {
     e.preventDefault();
-    console.log(index, e.target.value);
+    // setUpdatedInfo({ _id: user._id, role: e.target.value });
+    // eslint-disable-next-line no-restricted-globals
+    let confirmMsg = confirm("Are you sure?");
+    const updatedInfo = { _id: user._id, role: e.target.value };
+    if (confirmMsg) {
+      dispatch(updateUserRole(updatedInfo));
+      console.log("Üser Roles", user._id, e.target.value);
+    }
   };
 
-  const showModal = (index) => {
+  const showModal = (id) => {
     setShow(true);
-    console.log(index);
+    setUserId(id);
   };
 
   const hideModal = () => {
@@ -22,6 +35,7 @@ const Table = ({ tableHeaders, tableData }) => {
 
   const handleDelete = () => {
     setShow(false);
+    dispatch(userDelete(userId));
   };
 
   return (
@@ -61,14 +75,18 @@ const Table = ({ tableHeaders, tableData }) => {
                     <div className="flex items-center gap-4 py-2">
                       <div>
                         <img
-                          src={avatar}
+                          src={
+                            user.picture
+                              ? `http://localhost:4000/${user.picture}`
+                              : defaultAvatar
+                          }
                           alt="avatar"
                           className="h-[50px] w-[50px] rounded-full"
                         />
                       </div>
                       <div>
                         <p className="pt-[14px] text-sm font-bold text-navy-700 dark:text-white sm:text-[14px]">
-                          {user.firstName}
+                          {user.firstName} {user.lastName}
                         </p>
                         <p className="pt-1 pb-[20px] text-sm font-medium text-gray-600 dark:text-white sm:text-[14px]">
                           {user.email}
@@ -84,7 +102,7 @@ const Table = ({ tableHeaders, tableData }) => {
                   <td>
                     <select
                       className="text-xs font-bold text-navy-700 dark:text-navy-700 sm:text-[14px]"
-                      onChange={(e) => handleCheck(e, index)}
+                      onChange={(e) => handleCheck(e, user)}
                       value={user.role}
                     >
                       <option value="Admin">Admin</option>
@@ -96,7 +114,7 @@ const Table = ({ tableHeaders, tableData }) => {
                   <td>
                     <button
                       className="ml-3 rounded-md bg-red-400 px-2 py-1 text-xs text-white hover:bg-red-500"
-                      onClick={() => showModal(index)}
+                      onClick={() => showModal(user._id)}
                     >
                       delete
                     </button>

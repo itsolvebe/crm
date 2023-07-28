@@ -30,14 +30,14 @@ const employeeroutes = [
     component: <MainDashboard />,
   },
 
-  {
-    name: "NFT Marketplace",
-    layout: "/dashboard",
-    path: "nft-marketplace",
-    icon: <MdOutlineShoppingCart className="h-6 w-6" />,
-    component: <NFTMarketplace />,
-    secondary: true,
-  },
+  // {
+  //   name: "NFT Marketplace",
+  //   layout: "/dashboard",
+  //   path: "nft-marketplace",
+  //   icon: <MdOutlineShoppingCart className="h-6 w-6" />,
+  //   component: <NFTMarketplace />,
+  //   secondary: true,
+  // },
   {
     name: "Tickets",
     layout: "/dashboard",
@@ -45,13 +45,13 @@ const employeeroutes = [
     path: "tickets",
     component: <Tickets />,
   },
-  {
-    name: "Data Tables",
-    layout: "/dashboard",
-    icon: <MdBarChart className="h-6 w-6" />,
-    path: "data-tables",
-    component: <DataTables />,
-  },
+  // {
+  //   name: "Data Tables",
+  //   layout: "/dashboard",
+  //   icon: <MdBarChart className="h-6 w-6" />,
+  //   path: "data-tables",
+  //   component: <DataTables />,
+  // },
   {
     name: "Chat",
     layout: "/dashboard",
