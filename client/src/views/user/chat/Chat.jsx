@@ -48,7 +48,7 @@ function Chat({ ticket }) {
   // console.log("OpponentUserId: ", ...opponentUserId);
 
   useEffect(() => {
-    console.log("USEFFECTT");
+    console.log("USEFFECTT", ticket);
     // Send info about user who joined room
     socket.emit("joinRoom", "123");
 
@@ -192,17 +192,18 @@ function Chat({ ticket }) {
       <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
         <div className="sticky top-0  flex items-center justify-start gap-2 border-b border-gray-200 bg-white px-2 py-6">
           <div>
-            <img
+            {/* <img
               alt="person"
+              className="rounded-full"
               src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
               width={38}
               height={38}
-            />
+            /> */}
           </div>
           <div>
             <div>
               <span className="text-md font-semibold">
-                #{ticket._id.slice(0, 6)}
+                #{ticket._id.slice(-6)}
               </span>
             </div>
             <div className="flex items-center justify-start gap-2">
@@ -277,6 +278,9 @@ function Chat({ ticket }) {
                         className="h-10 w-10 rounded-full"
                       />
                       <div className="ml-2 flex flex-col items-start rounded-lg bg-gray-200 p-2">
+                        <strong className="text-md">
+                          {element.sender.slice(-6)}
+                        </strong>
                         <span className="text-md">{element.content}</span>
                         <span className="text-sm text-gray-600">
                           {convertIntoFormattedTime(element.timestamp)}
@@ -311,7 +315,7 @@ function Chat({ ticket }) {
             <div className="mx-3 my-2 flex w-full items-center justify-around rounded-lg border-2 bg-white p-2">
               <input
                 type="text"
-                className="w-5/6 px-1 py-1 focus:outline-none"
+                className="w-5/6 border-none px-1 py-1 outline-none focus:outline-none"
                 placeholder="Write message"
                 {...register("senderMessage")}
                 onChange={handleUserTyping}

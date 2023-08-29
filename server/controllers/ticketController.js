@@ -105,10 +105,29 @@ const getTicketDetails = async (req, res) => {
   }
 };
 
+const getTicketsByMembersId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const tickets = await Ticket.find({
+      members: { $in: [id] },
+    }).populate("members");
+
+    if (!tickets) {
+      return res.status(404).json({ error: "Tickets not found" });
+    }
+
+    res.status(200).json(tickets);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to get tickets" });
+  }
+};
+
 module.exports = {
   createTicket,
   updateTicket,
   getTicketDetails,
   getAllTickets,
   getClientTickets,
+  getTicketsByMembersId,
 };

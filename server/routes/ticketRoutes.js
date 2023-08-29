@@ -19,6 +19,7 @@ const {
   getTicketDetails,
   getAllTickets,
   getClientTickets,
+  getTicketsByMembersId,
 } = require("../controllers/ticketController");
 
 // Create Ticket
@@ -35,5 +36,8 @@ router.get("/:id", getTicketDetails);
 
 // Get Specific Client Ticket Details
 router.get("/client/:id", getClientTickets);
+
+// Get Specific Members Ticket Details
+router.get("/members/:id", getTicketsByMembersId);
 
 module.exports = router;

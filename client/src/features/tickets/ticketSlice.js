@@ -4,11 +4,13 @@ import {
   getClientTickets,
   getAllTickets,
   addMembers,
+  getMembersTickets,
 } from "./ticketActions";
 
 const initialState = {
   loading: false,
   ticketInfo: [],
+  membersTickets: [],
   allTickets: [],
   error: null,
   success: false,
@@ -77,6 +79,18 @@ const ticketSlice = createSlice({
       state.modalIsOpen = false;
     },
     [addMembers.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    [getMembersTickets.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [getMembersTickets.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.membersTickets = payload;
+    },
+    [getMembersTickets.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },

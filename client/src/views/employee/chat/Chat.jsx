@@ -11,16 +11,16 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { columnsDataComplex } from "../default/variables/columnsData";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
-import ChatFiles from "./ChatFiles";
+import { FiDownload } from "react-icons/fi";
+import PdfIcon from "../../../assets/files/pdf-icon.svg";
+import DocIcon from "../../../assets/files/doc-icon.svg";
+import GalleryIcon from "../../../assets/files/gallery-icon.svg";
+import CodeIcon from "../../../assets/files/code-icon.svg";
+import { openModal } from "features/tickets/ticketSlice";
+import { BsPlusCircleFill } from "react-icons/bs";
+import UserCard from "./components/UserCard";
 
 function Chat({ ticket }) {
-  // const [update, setUpdate] = useState(false);
-  // const [room, setRoom] = useState("");
-  // console.log("ROOM ID: ", room);
-  // const [userIsTyping, setUserIsTyping] = useState({
-  //   userWhichIsTyping: "",
-  //   typing: false,
-  // });
   const [userIsTyping, setUserIsTyping] = useState({
     userWhichIsTyping: Array.from(new Set()),
   });
@@ -128,7 +128,7 @@ function Chat({ ticket }) {
     socket.emit("sendMessage", {
       ticketId: ticket["_id"],
       sender: userInfo._id,
-      // receiver: "6475f8c372d0038559f17e30",
+      // receiver: "64688d0ec3fe9678234c4916",
       content: data.senderMessage,
     });
     socket.emit("userNotTyping", {
@@ -207,13 +207,13 @@ function Chat({ ticket }) {
             </div>
             <div className="flex items-center justify-start gap-2">
               {/* If user is online then show Online icon otherwise no icon */}
-              <img
+              {/* <img
                 alt="online"
                 src={require("../../../assets/status/online-ellipse.png")}
                 width={10}
                 height={10}
               />
-              <span className="text-xs">Online</span>
+              <span className="text-xs">Online</span> */}
             </div>
           </div>
         </div>
@@ -227,49 +227,22 @@ function Chat({ ticket }) {
                 <React.Fragment key={index}>
                   {element.sender === userInfo._id ? (
                     // Sender Message
-                    index === 0 ? (
-                      <div className="flex items-center justify-end gap-2">
-                        <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
-                          <span className="text-md">
-                            {" "}
-                            SUBJECT: {JSON.parse(element.content).subject}{" "}
-                            <br />
-                            Description:{" "}
-                            {JSON.parse(element.content).description} <br />
-                            Budget: {JSON.parse(element.content).budget} <br />
-                            Deadline:{" "}
-                            {formatDateTimeOfClientProjectDeadline(
-                              JSON.parse(element.content).deadline
-                            )}
-                          </span>
-                          <span className="text-sm text-gray-100">
-                            {convertIntoFormattedTime(element.timestamp)}
-                          </span>
-                        </div>
-                        <img
-                          src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
-                          alt="Receiver"
-                          className="h-10 w-10 rounded-full"
-                        />
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
+                        <span className="text-md">{element.content}</span>
+                        <span className="text-sm text-gray-100">
+                          {convertIntoFormattedTime(element.timestamp)}
+                        </span>
                       </div>
-                    ) : (
-                      <div className="flex items-center justify-end gap-2">
-                        <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
-                          <span className="text-md">{element.content}</span>
-                          <span className="text-sm text-gray-100">
-                            {convertIntoFormattedTime(element.timestamp)}
-                          </span>
-                        </div>
-                        <img
-                          src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
-                          alt="Receiver"
-                          className="h-10 w-10 rounded-full"
-                        />
-                      </div>
-                    )
-                  ) : (
-                    // Receiver Message
+                      <img
+                        src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+                        alt="Receiver"
+                        className="h-10 w-10 rounded-full"
+                      />
+                    </div>
+                  ) : // Receiver Message
 
+                  index === 0 ? (
                     <div className="flex items-center justify-start">
                       <img
                         src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
@@ -277,6 +250,34 @@ function Chat({ ticket }) {
                         className="h-10 w-10 rounded-full"
                       />
                       <div className="ml-2 flex flex-col items-start rounded-lg bg-gray-200 p-2">
+                        <span className="text-md">
+                          SUBJECT: {JSON.parse(element.content).subject} <br />
+                          Description: {
+                            JSON.parse(element.content).description
+                          }{" "}
+                          <br />
+                          Budget: {JSON.parse(element.content).budget} <br />
+                          Deadline:{" "}
+                          {formatDateTimeOfClientProjectDeadline(
+                            JSON.parse(element.content).deadline
+                          )}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {convertIntoFormattedTime(element.timestamp)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-start">
+                      <img
+                        src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+                        alt="Receiver"
+                        className="h-10 w-10 rounded-full"
+                      />
+                      <div className="ml-2 flex flex-col items-start rounded-lg bg-gray-200 p-2">
+                        <strong className="text-md">
+                          {element.sender.slice(-6)}
+                        </strong>
                         <span className="text-md">{element.content}</span>
                         <span className="text-sm text-gray-600">
                           {convertIntoFormattedTime(element.timestamp)}
@@ -324,6 +325,28 @@ function Chat({ ticket }) {
               />
             </div>
           </div>
+        </div>
+      </div>
+      <div className="hidden flex-col gap-4 px-4 md:flex md:w-2/5 lg:w-1/5">
+        <div className=" flex items-center justify-center gap-2 border-b border-gray-200 py-6">
+          <div className="flex items-center  justify-center">
+            <span className="font-semibold">Ticket Members</span>
+            {/* <div className="cursor-pointer" onClick={handleOpen}>
+              <BsPlusCircleFill
+                size={22}
+                className="text-blue-500 hover:text-blue-400"
+              />
+            </div> */}
+            {/* <span className="rounded-lg bg-[#EDF2F7] px-2 py-0.5 text-xs font-semibold ">
+              8
+            </span> */}
+          </div>
+        </div>
+
+        <div className="hideScrollBar mt-2 flex flex-col  gap-4  overflow-y-auto">
+          {ticket.members.map((member) => (
+            <UserCard member={member} key={member._id} />
+          ))}
         </div>
       </div>
     </>

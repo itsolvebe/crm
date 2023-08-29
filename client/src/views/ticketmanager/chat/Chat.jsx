@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlinePaperClip } from "react-icons/hi";
 import { RiSendPlaneFill } from "react-icons/ri";
-import socket from "../../../../Socket";
+import socket from "../../../Socket";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,13 +12,13 @@ import { fetchChatMessages } from "features/chat/chatActions";
 // import { addChatMessage } from "features/chat/chatSlice";
 import { ThreeDots } from "react-loader-spinner";
 import { FiDownload } from "react-icons/fi";
-import PdfIcon from "assets/files/pdf-icon.svg";
-import DocIcon from "assets/files/doc-icon.svg";
-import GalleryIcon from "assets/files/gallery-icon.svg";
-import CodeIcon from "assets/files/code-icon.svg";
+import PdfIcon from "../../../assets/files/pdf-icon.svg";
+import DocIcon from "../../../assets/files/doc-icon.svg";
+import GalleryIcon from "../../../assets/files/gallery-icon.svg";
+import CodeIcon from "../../../assets/files/code-icon.svg";
 import { openModal } from "features/tickets/ticketSlice";
 import { BsPlusCircleFill } from "react-icons/bs";
-import UserCard from "./UserCard";
+import UserCard from "./components/UserCard";
 
 function Chat({ ticket }) {
   const [userIsTyping, setUserIsTyping] = useState({
@@ -126,8 +126,9 @@ function Chat({ ticket }) {
     console.log("Data inside submitForm client", data);
     // Send chat message
     socket.emit("sendMessage", {
+      ticketId: ticket["_id"],
       sender: userInfo._id,
-      receiver: "64688d0ec3fe9678234c4916",
+      // receiver: "64688d0ec3fe9678234c4916",
       content: data.senderMessage,
     });
     socket.emit("userNotTyping", {
@@ -173,6 +174,23 @@ function Chat({ ticket }) {
     dispatch(openModal());
   };
 
+  // Format client project deadline
+  function formatDateTimeOfClientProjectDeadline(dateTimeString) {
+    const dateTime = new Date(dateTimeString);
+
+    const options = {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    const formattedDateTime = dateTime.toLocaleString("en-US", options);
+    return formattedDateTime;
+  }
+
   return (
     <>
       <div className="hideScrollBar hidden w-3/5  flex-col  gap-4 overflow-auto border-r px-4 md:hidden lg:block">
@@ -187,13 +205,13 @@ function Chat({ ticket }) {
           </div>
           <div>
             <div>
-              <span className="text-md font-semibold">{ticket._id}</span>
+              <span className="text-md font-semibold">#{ticket._id.slice(0, 6)}</span>
             </div>
             <div className="flex items-center justify-start gap-2">
               {/* If user is online then show Online icon otherwise no icon */}
               <img
                 alt="online"
-                src={require("assets/status/online-ellipse.png")}
+                src={require("../../../assets/status/online-ellipse.png")}
                 width={10}
                 height={10}
               />
@@ -210,7 +228,7 @@ function Chat({ ticket }) {
               return (
                 <React.Fragment key={index}>
                   {element.sender === userInfo._id ? (
-                    // {/* Sender Message */}
+                    // Sender Message
                     <div className="flex items-center justify-end gap-2">
                       <div className="flex flex-col items-end rounded-lg bg-blue-500 p-2 text-white">
                         <span className="text-md">{element.content}</span>
@@ -224,15 +242,41 @@ function Chat({ ticket }) {
                         className="h-10 w-10 rounded-full"
                       />
                     </div>
-                  ) : (
-                    // {/* Receiver Message */}
+                  ) : // Receiver Message
+
+                  index === 0 ? (
                     <div className="flex items-center justify-start">
                       <img
                         src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
                         alt="Receiver"
                         className="h-10 w-10 rounded-full"
                       />
-                      <div className="ml-2 flex flex-col  items-start rounded-lg bg-gray-200 p-2">
+                      <div className="ml-2 flex flex-col items-start rounded-lg bg-gray-200 p-2">
+                        <span className="text-md">
+                          SUBJECT: {JSON.parse(element.content).subject} <br />
+                          Description: {
+                            JSON.parse(element.content).description
+                          }{" "}
+                          <br />
+                          Budget: {JSON.parse(element.content).budget} <br />
+                          Deadline:{" "}
+                          {formatDateTimeOfClientProjectDeadline(
+                            JSON.parse(element.content).deadline
+                          )}
+                        </span>
+                        <span className="text-sm text-gray-600">
+                          {convertIntoFormattedTime(element.timestamp)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-start">
+                      <img
+                        src="https://i.postimg.cc/t1WmCp3h/frame-108-2x.png"
+                        alt="Receiver"
+                        className="h-10 w-10 rounded-full"
+                      />
+                      <div className="ml-2 flex flex-col items-start rounded-lg bg-gray-200 p-2">
                         <span className="text-md">{element.content}</span>
                         <span className="text-sm text-gray-600">
                           {convertIntoFormattedTime(element.timestamp)}

@@ -129,3 +129,27 @@ export const getAllTickets = createAsyncThunk(
     }
   }
 );
+
+export const getMembersTickets = createAsyncThunk(
+  "ticket/getmembersticket",
+  async (membersId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `${backendURL}/api/tickets/members/${membersId}`,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(11111111111111, data);
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
