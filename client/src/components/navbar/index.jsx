@@ -208,7 +208,7 @@ const Navbar = (props) => {
               className="h-10 w-10 rounded-full"
               src={
                 userInfo?.picture
-                  ? `http://localhost:4000/${userInfo.picture}`
+                  ? `https://booming-spectrum-melon.glitch.me/api/${userInfo.picture}`
                   : defaultAvatar
               }
               alt="Elon Musk"

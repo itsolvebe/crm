@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL = "http://localhost:4000";
+const backendURL = "https://booming-spectrum-melon.glitch.me/api";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -13,7 +13,7 @@ export const registerUser = createAsyncThunk(
         },
       };
       const res = await axios.post(
-        `${backendURL}/api/user/register`,
+        `${backendURL}/user/register`,
         { firstName, email, password },
         config
       );
@@ -39,7 +39,7 @@ export const userLogin = createAsyncThunk(
         },
       };
       const { data } = await axios.post(
-        `${backendURL}/api/user/login`,
+        `${backendURL}/user/login`,
         { email, password },
         config
       );
@@ -68,7 +68,7 @@ export const getUserDetails = createAsyncThunk(
         },
       };
       const { data } = await axios.get(
-        `${backendURL}/api/user/profile`,
+        `${backendURL}/user/profile`,
         _id,
         config
       );

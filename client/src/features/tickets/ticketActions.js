@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL = "http://localhost:4000";
+const backendURL = "https://booming-spectrum-melon.glitch.me/api";
 
 export const createTicket = createAsyncThunk(
   "ticket/create",
@@ -28,7 +28,7 @@ export const createTicket = createAsyncThunk(
 
       // console.log("final data=>>>", formData);
       const responseFromTicket = await axios.post(
-        `${backendURL}/api/tickets`,
+        `${backendURL}/tickets`,
         formData,
         {
           headers: {
@@ -39,7 +39,7 @@ export const createTicket = createAsyncThunk(
       console.log("responseFromTicket : from api ", responseFromTicket);
 
       const responseFromChat = await axios.post(
-        `${backendURL}/api/chat/message/create`,
+        `${backendURL}/chat/message/create`,
         {
           ticketId: responseFromTicket.data._id,
           clientId: clientId,
@@ -70,7 +70,7 @@ export const addMembers = createAsyncThunk(
     try {
       console.log("final data=>>>", ticketData);
       const { data } = await axios.patch(
-        `${backendURL}/api/tickets/addmembers/${ticketData.ticketId}`,
+        `${backendURL}/tickets/addmembers/${ticketData.ticketId}`,
         { membId: ticketData.membId }
       );
 
@@ -90,7 +90,7 @@ export const getClientTickets = createAsyncThunk(
   async (clientId, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${backendURL}/api/tickets/client/${clientId}`,
+        `${backendURL}/tickets/client/${clientId}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -112,7 +112,7 @@ export const getAllTickets = createAsyncThunk(
   "ticket/alltickets",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${backendURL}/api/tickets`, {
+      const { data } = await axios.get(`${backendURL}/tickets`, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -135,7 +135,7 @@ export const getMembersTickets = createAsyncThunk(
   async (membersId, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `${backendURL}/api/tickets/members/${membersId}`,
+        `${backendURL}/tickets/members/${membersId}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

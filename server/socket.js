@@ -6,7 +6,7 @@ let io;
 function init(server) {
   io = socketIO(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://booming-spectrum-melon.glitch.me/api",
       methods: ["GET", "POST"],
     },
   });
@@ -73,7 +73,9 @@ function init(server) {
   const port = process.env.SOCKET_PORT;
   console.log("S PORT: ", port);
   server.listen(8000, () => {
-    console.log(`Socket Servers running on http://localhost:${8000}`);
+    console.log(
+      `Socket Servers running on ${process.env.REACT_APP_PORT}:${8000}`
+    );
   });
 }
 

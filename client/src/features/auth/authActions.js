@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL = "http://localhost:4000";
+const backendURL = "https://booming-spectrum-melon.glitch.me/api";
 // const backendURL = 'http://127.0.0.1:5000'
 
 export const userLogin = createAsyncThunk(
@@ -9,6 +9,7 @@ export const userLogin = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       // configure header's Content-Type as JSON
+      alert(backendURL);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -16,7 +17,7 @@ export const userLogin = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        `${backendURL}/api/user/login`,
+        `${backendURL}/user/login`,
         { email, password },
         config
       );
@@ -50,7 +51,7 @@ export const registerUser = createAsyncThunk(
       };
 
       await axios.post(
-        `${backendURL}/api/user/register`,
+        `${backendURL}/user/register`,
         { firstName, lastName, email, password, phoneNumber },
         config
       );
@@ -75,7 +76,7 @@ export const getAllUsers = createAsyncThunk(
         },
       };
 
-      const { data } = await axios.get(`${backendURL}/api/user`, config);
+      const { data } = await axios.get(`${backendURL}/user`, config);
       console.log("++++++++++++++++++++++++++++++", data);
       return data;
     } catch (error) {
@@ -115,7 +116,7 @@ export const updateUser = createAsyncThunk(
       console.log("ACTION", updatedInfo);
       console.log("updtAction", avatar);
       await axios.patch(
-        `${backendURL}/api/user/update/${updatedInfo._id}`,
+        `${backendURL}/user/update/${updatedInfo._id}`,
         updatedData,
         {
           headers: {
@@ -142,7 +143,7 @@ export const updateUserRole = createAsyncThunk(
       updatedData.append("role", role);
       console.log("ACTION", updatedInfo);
 
-      await axios.patch(`${backendURL}/api/user/update/${_id}`, updatedData, {
+      await axios.patch(`${backendURL}/user/update/${_id}`, updatedData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -169,7 +170,7 @@ export const userDelete = createAsyncThunk(
       };
 
       const { data } = await axios.post(
-        `${backendURL}/api/user/delete/${id}`,
+        `${backendURL}/user/delete/${id}`,
         config
       );
 

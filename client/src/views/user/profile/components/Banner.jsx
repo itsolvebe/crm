@@ -71,7 +71,7 @@ const Banner = () => {
                   avatar
                     ? URL.createObjectURL(avatar)
                     : userInfo?.picture
-                    ? `http://localhost:4000/${userInfo?.picture}`
+                    ? `https://booming-spectrum-melon.glitch.me/api/${userInfo?.picture}`
                     : defaultAvatar
                 })`,
               }}

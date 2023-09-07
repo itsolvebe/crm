@@ -77,7 +77,7 @@ const Table = ({ tableHeaders, tableData }) => {
                         <img
                           src={
                             user.picture
-                              ? `http://localhost:4000/${user.picture}`
+                              ? `https://booming-spectrum-melon.glitch.me/api/${user.picture}`
                               : defaultAvatar
                           }
                           alt="avatar"
